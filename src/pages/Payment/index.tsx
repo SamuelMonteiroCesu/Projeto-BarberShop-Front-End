@@ -6,26 +6,26 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 import { FiMail, FiLock } from 'react-icons/fi';
 
-const CadastroCliente: React.FC = () => {
-
+const ManagementPayment: React.FC = () => {
+    
     const formRef = useRef<FormHandles>(null);
-
+    
     const handlerSubmit = useCallback (async (data: object) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
-
-                cpf: Yup.string().required('CPF obrigatório.').min(11, 'Digite um CPF válido.'),
                 name: Yup.string().required('Nome obrigatório.'),
-                birthday: Yup.string().required('Data de nascimento obrigatório.'),
-                email: Yup.string().required('E-mail obrigatório.').email('Digite um E-mail válido.'),
             });
 
             await schema.validate(data, {
                 abortEarly: false,
             });
+            console.log(data);
+            
+            api.post('/payment/', data);
 
         }catch(err){
             
@@ -36,19 +36,15 @@ const CadastroCliente: React.FC = () => {
     return(
         <Container>
         <Content>
-            <Form ref={ formRef } onSubmit={handlerSubmit}>
+            <Form ref={ formRef }  onSubmit={handlerSubmit}>
 
                 <h1>Em andamento...</h1>
+
+                    <Input type="text" placeholder="Forma" name="name"/>
             
-                    <Input type="text" placeholder="CPF " name="cpf"/>
+                    <Input type="text" placeholder="Desconto" name="discount"/>
         
-                    <Input type="text" placeholder="Nome " name="name"/>
-            
-                    <Input type="text" placeholder="Data de nascimento " name="birthday"/>
-            
-                    <Input type="text" placeholder="E-mail " name="email"/>
-        
-                    <Input type="text" placeholder="Celular " name="cellphone"/>
+                    <Input type="text" placeholder="Taxa" name="tax"/>
 
                     <Button type="submit">Enviar</Button>
             </Form>
@@ -58,4 +54,4 @@ const CadastroCliente: React.FC = () => {
     );
 }
 
-export default CadastroCliente;
+export default ManagementPayment;
