@@ -1,30 +1,32 @@
 import React, { useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
+
 import { Container, Content, AnimationContainer } from './style';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import * as Yup from 'yup';
-import getValidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
-import { useAuth } from '../../hooks/auth'
-import { useToast} from '../../hooks/toast'
+import { useAuth } from '../../../hooks/auth'
+import { useToast} from '../../../hooks/toast'
 
 //import api from '../../services/api';
-// import { FiMail, FiLock } from 'react-icons/fi';
+import { FiLogIn} from 'react-icons/fi';
 
 interface LoginFormData{
     username: string,
     password: string,
 }
 
-const Login: React.FC = () => {
+const LoginClient: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
-    
+
     const { user, validateLogin } = useAuth();
     const { addToast } = useToast();
 
@@ -51,6 +53,8 @@ const Login: React.FC = () => {
         if(err instanceof Yup.ValidationError){
             const errors = getValidationErrors(err);
             formRef.current?.setErrors( errors );
+
+            return;
         }
         addToast({
             type: 'error',
@@ -64,14 +68,19 @@ const Login: React.FC = () => {
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Login Funcionario</h1>
+                        <h1>Login Cliente</h1>
                         <Input type="text" placeholder="C.P.F " name="username"/>
                 
-                        <Input type="password" placeholder="Senha " name="password"/>
+                        <Input type="password" placeholder="YYYY-MM-DD " name="password"/>
 
                         <Button type="submit">Entrar</Button>
 
                     </Form>
+
+                    <Link to="cadastro">
+                        <FiLogIn/>
+                        Cadastrar-se
+                    </Link>
                 </AnimationContainer>
             </Content>
         {/* <Background /> */}
@@ -79,4 +88,4 @@ const Login: React.FC = () => {
     );
 }
 
-export default Login;
+export default LoginClient;

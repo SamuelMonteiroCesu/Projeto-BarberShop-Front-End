@@ -1,26 +1,27 @@
 import React from 'react';
+import { BrowserRouter as Router} from 'react-router-dom';
+
 import GlobalStyle from './styles/globalstyle';
-// import CadastroCliente from './pages/Client';
+//import CadastroCliente from './pages/Client';
 // import CadastroStatus from './pages/Status';
 // import CadastroProcedimento from './pages/Procedure';
 // import ManagementPayment from './pages/Payment';
 // import ManagementEmployee from './pages/Employee';
-import { AuthProvider } from './context/AuthContext';
-import Login from './pages/Login';
+import LoginClient from './pages/Login/LoginClient';
+import Routes from './routes';
+
+import AppProvider from './hooks';
 
 
 
 const App: React.FC = () => (
-    <>
-     <AuthProvider>
-         <Login/> {/* EXEMPLO DE UTILIZAÇÃO DE CONTEXTO PARA VALIDALÇAO */}
-      </AuthProvider>
+    <Router>
+      <AppProvider>
+          <Routes />{/* EXEMPLO DE UTILIZAÇÃO DE CONTEXTO PARA VALIDALÇAO */}
+      </AppProvider>
+
       <GlobalStyle/>
-    </>
-    // <>
-    //   <Login/>
-    //   <GlobalStyle/>
-    // </>
+    </Router>
   );
 
 export default App;

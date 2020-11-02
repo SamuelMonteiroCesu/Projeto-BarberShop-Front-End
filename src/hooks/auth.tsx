@@ -14,6 +14,7 @@ interface LoginCredentials{
 interface AuthContextData{
     user: object;
     validateLogin(credentials: LoginCredentials): Promise<void>;
+    //validateLogout(): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -32,7 +33,7 @@ const AuthProvider: React.FC = ({children}) =>{
     });
 
     const validateLogin = useCallback(async({username, password}) =>{
-        const response = await api.post('/login/', {username, password});
+        const response = await api.post('login', {username, password});
 
         //console.log(response.data);
         const { token, user } = response.data;
@@ -42,6 +43,13 @@ const AuthProvider: React.FC = ({children}) =>{
 
         setData({ token, user });
     }, []);
+
+    // const validateLogout = useCallback(() =>{
+    //     localStorage.removeItem('@BarberShop:token');
+    //     localStorage.removeItem('@BarberShop:user');
+        
+    //     setData({} as AuthState);
+    // }, []);
 
     return(
         <AuthContext.Provider value={{ user: data.user, validateLogin }}>
