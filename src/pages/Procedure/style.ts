@@ -21,7 +21,7 @@ export const Content = styled.div`
     max-width: 700px;
 
     form{
-        margin: 80px 0;
+        margin: 80px 0 16px;
         width: 340px;
         text-align: center;
     }
@@ -33,7 +33,7 @@ export const Content = styled.div`
     a{
         color: #FFFFFF;
         display: block;
-        margin-top: 24px;
+        margin-top: 16px;
         text-decoration: none;
         transition: color 0.2s;
 
@@ -41,11 +41,20 @@ export const Content = styled.div`
         aling-item: center;
 
         svg{
-            margin-right: 16px;
+            margin-right: 8px;
         }
 
         &:hover{
             color: ${shade(0.2, '#FFFFFF')};
         }
     }
+
 `;
+
+
+export const ListContainer = styled.div`
+    p{
+        
+        margin-bottom: 12px;
+    }
+ `

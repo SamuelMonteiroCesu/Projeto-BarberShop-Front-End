@@ -12,7 +12,7 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../../utils/getValidationErrors';
 
-import { useAuth } from '../../../hooks/auth'
+//import { useAuth } from '../../../hooks/auth'
 import { useToast} from '../../../hooks/toast'
 
 //import api from '../../services/api';
@@ -27,10 +27,7 @@ const LoginClient: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
 
-    const { user, validateLogin } = useAuth();
     const { addToast } = useToast();
-
-    console.log(user);
 
     const handlerSubmit = useCallback (async (data: LoginFormData) => {
         try{
@@ -45,10 +42,10 @@ const LoginClient: React.FC = () => {
                 abortEarly: false,
             });
             console.log(data);
-            await validateLogin({
-                username: data.username,
-                password: data.password,
-            });
+            // await validateLogin({
+            //     username: data.username,
+            //     password: data.password,
+            // });
         }catch(err){
         if(err instanceof Yup.ValidationError){
             const errors = getValidationErrors(err);
@@ -62,16 +59,16 @@ const LoginClient: React.FC = () => {
             description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
         });
         }
-    }, [validateLogin, addToast] );
+    }, [, addToast] );
     return(
         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
                         <h1>Login Cliente</h1>
-                        <Input type="text" placeholder="C.P.F " name="username"/>
+                        <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
-                        <Input type="password" placeholder="YYYY-MM-DD " name="password"/>
+                        <Input type="text" placeholder="DD/MM/AA " name="password" mask="datas"/>
 
                         <Button type="submit">Entrar</Button>
 

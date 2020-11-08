@@ -1,7 +1,33 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Dashboard: React.FC = () =>(
-    <h1>Dashboard</h1>
-);
+import { Container, Content, AnimationContainer } from './style';
+const Dashboard: React.FC = () =>{
+
+    return(
+        <Container>
+        <Content>
+            <AnimationContainer>
+            <Link to="listProcedure">
+                {/* <FiLogIn/> */}
+                Procedimentos
+            </Link>
+            <Link to="payment">
+                {/* <FiLogIn/> */}
+                Formas de pagamentos
+            </Link>
+            <Link to="status">
+                {/* <FiLogIn/> */}
+                Status
+            </Link>
+            <Link to="employee">
+                {/* <FiLogIn/> */}
+                Funcionários
+            </Link>
+            </AnimationContainer>
+        </Content>
+        </Container>
+    );
+}
 
 export default Dashboard;

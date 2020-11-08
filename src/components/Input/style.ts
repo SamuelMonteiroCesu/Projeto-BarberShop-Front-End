@@ -50,6 +50,7 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Error = styled(Tooltip)`
+
     height: 20px;
     margin-left: 16px;
     svg{
@@ -65,3 +66,43 @@ export const Error = styled(Tooltip)`
         }
     }
 `;
+
+export function cpf(e: React.FormEvent<HTMLInputElement>){
+    e.currentTarget.maxLength = 14;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, "");
+    value = value.replace(/(\d)(\d{2})$/, "$1-$2");
+    value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    e.currentTarget.value = value;
+    return e;
+}
+
+export function datas(e: React.FormEvent<HTMLInputElement>){
+    e.currentTarget.maxLength = 8;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, "");
+    value = value.replace(/^(\d{2})(\d)/, "$1/$2");
+    value = value.replace(/(\d)(\d{2})$/, "$1/$2");
+    //value = value.replace(/(?=(\d{2})+(\D))\B/g, "/");
+    e.currentTarget.value = value;
+    return e;
+}
+
+export function currency(e: React.FormEvent<HTMLInputElement>){
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, "");
+    value = value.replace(/(\d)(\d{2})$/, "$1.$2");
+    value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    //value = value.replace(/(?=(\d{2})+(\D))\B/g, "/");
+    e.currentTarget.value = value;
+    return e;
+}
+
+export function hours(e: React.FormEvent<HTMLInputElement>){
+    e.currentTarget.maxLength = 5;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, "");
+    value = value.replace(/^(\d{2})(\d)/, "$1:$2");
+    e.currentTarget.value = value;
+    return e;
+}

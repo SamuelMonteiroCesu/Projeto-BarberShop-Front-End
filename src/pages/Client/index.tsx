@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useContext } from 'react';
+import React, { useCallback, useRef, useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { Container, Content, AnimationContainer } from './style';
@@ -27,8 +27,18 @@ const CadastroCliente: React.FC = () => {
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
-
+    //const [user, userState] = useState();
+    const [cliente, setClient]= useState([]);
+        useEffect(() =>{
+            (async () =>{
+            const { data } = await api.get('/client');
+            setClient(data);
+        })();
+    
+        }, []);
+        
     const handlerSubmit = useCallback (async (data: registerClient) => {
+
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
@@ -44,8 +54,7 @@ const CadastroCliente: React.FC = () => {
             });
             
             await api.post('/client/', data);
-            
-            history.push('/');
+            history.push('/client/');
 
             addToast({
                 type: 'success',
@@ -66,17 +75,20 @@ const CadastroCliente: React.FC = () => {
             });
         }
     }, [addToast, history] );
+
+    console.log('AQUI2', cliente);
+    
     return(
         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
                         <h1>Em andamento...</h1>
-                        <Input type="text" placeholder="CPF " name="doc"/>
+                        <Input type="text" placeholder="CPF " name="doc" mask="cpf"/>
             
                         <Input type="text" placeholder="Nome " name="name"/>
                 
-                        <Input type="text" placeholder="Data de nascimento " name="birthday"/>
+                        <Input type="text" placeholder="Data de nascimento " name="birthday" mask="datas"/>
                 
                         <Input type="text" placeholder="E-mail " name="email"/>
             
@@ -84,7 +96,11 @@ const CadastroCliente: React.FC = () => {
 
                         <Button type="submit">Enviar</Button>
                     </Form>
-
+                    {/* <ul>
+                        {cliente.map((client)=>(
+                            <li key={client.last_name}> ({client.first_name}) </li>
+                        ))}
+                    </ul> */}
                     <Link to="/login">
                         <FiArrowLeft/>
                         Voltar

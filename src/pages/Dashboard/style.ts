@@ -1,24 +1,23 @@
 import styled, { keyframes } from 'styled-components';
-//import { shade } from 'polished';
-//import LoginBackground from '../../assets/back.jpg'
-
+import { shade } from 'polished';
 
 export const Container = styled.div`
     height: 100vh;
     display: flex;
     aling-items: stretch;
 
-`;
+    
 
+`;
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    background-color: #808080;
 
     place-content: center;
     
     width: 100%;
-    max-width: 700px;
+    max-width: 200px;
 
 `;
 
@@ -37,15 +36,8 @@ export const AnimationContainer = styled.div`
 
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     animation: ${apparFromLeft} 1s;
-
-    form{
-        margin: 80px 0 16px;
-        width: 340px;
-        text-align: center;
-    }
 
     h1{
         margin-bottom: 24px;
@@ -65,14 +57,9 @@ export const AnimationContainer = styled.div`
             margin-right: 8px;
         }
 
+        &:hover{
+            color: ${shade(0.2, '#FFFFFF')};
+        }
     }
 `;
 
-// export const Background = styled.div`
-//     flex: 1;
-//     background: url(${LoginBackground}) no-repeat center;
-//     background-size: cover;
-
-// &:hover{
-//     color: ${shade(0.2, '#FFFFFF')};
-// }

@@ -25,16 +25,16 @@ const Login: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
     
-    const { user, validateLogin } = useAuth();
+   const { refresh, login } = useAuth();
     const { addToast } = useToast();
 
-    console.log(user);
+    console.log(refresh);
 
     const handlerSubmit = useCallback (async (data: LoginFormData) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
-                username: Yup.string().required('Digite seu e-mail.'),
+                username: Yup.string().required('Digite seu C.P.F.'),
                 password: Yup.string().min(6, 'Senha inválida.'),
                 
             });
@@ -42,32 +42,31 @@ const Login: React.FC = () => {
             await schema.validate(data, {
                 abortEarly: false,
             });
-            console.log(data);
-            await validateLogin({
-                username: data.username,
-                password: data.password,
-            });
-        }catch(err){
-        if(err instanceof Yup.ValidationError){
-            const errors = getValidationErrors(err);
-            formRef.current?.setErrors( errors );
-        }
-        addToast({
-            type: 'error',
-            title: 'Erro na autenticação',
-            description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+        login({
+            username: data.username,
+            password: data.password,
         });
+        }catch(err){
+            if(err instanceof Yup.ValidationError){
+                const errors = getValidationErrors(err);
+                formRef.current?.setErrors( errors );
+            }
+            addToast({
+                type: 'error',
+                title: 'Erro na autenticação',
+                description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+            });
         }
-    }, [validateLogin, addToast] );
+    }, [ login, addToast] );
     return(
         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
                         <h1>Login Funcionario</h1>
-                        <Input type="text" placeholder="C.P.F " name="username"/>
+                        <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
-                        <Input type="password" placeholder="Senha " name="password"/>
+                        <Input type="password" placeholder="Senha " name="password" mask="datas"/>
 
                         <Button type="submit">Entrar</Button>
 
