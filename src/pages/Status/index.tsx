@@ -11,7 +11,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
 import {} from '../../hooks/auth';
 import { datas } from '../../components/Input/style';
-
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface StatusProps{
     //status_id: number,
@@ -94,6 +94,7 @@ const CadastroStatus: React.FC = () =>{
                         <Button type="submit">Enviar</Button>
                     </Form>
                     <Link to="/status">
+                    <FiArrowLeft/>
                         Voltar
                     </Link>
                 </AnimationContainer>

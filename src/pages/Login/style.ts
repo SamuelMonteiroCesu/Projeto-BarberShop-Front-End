@@ -11,6 +11,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,6 +24,7 @@ export const Content = styled.div`
     margin-left: 100px;
     max-width: 700px;
     border-radius: 10px;
+    
 `;
 
 const apparFromLeft = keyframes `
@@ -48,10 +50,6 @@ export const AnimationContainer = styled.div`
         margin: 80px 0 16px;
         width: 340px;
         text-align: center;
-    }
-
-    h1{
-        margin-bottom: 24px;
     }
 
 `;

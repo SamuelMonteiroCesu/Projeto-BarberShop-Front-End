@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-//import { shade } from 'polished';
+import { shade } from 'polished';
 //import LoginBackground from '../../assets/back.jpg'
 
 
@@ -14,12 +14,15 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    background: #939393;
     place-content: center;
-    
-    width: 100%;
+    position: absolute;
+    width: 500px;
+    height: 600px; 
+    margin-top: 24px;
+    margin-left: 100px;
     max-width: 700px;
-
+    border-radius: 10px;
 `;
 
 const apparFromLeft = keyframes `
@@ -52,7 +55,7 @@ export const AnimationContainer = styled.div`
     }
 
     a{
-        color: #FFFFFF;
+        color: #F0F4F4;
         display: block;
         margin-top: 16px;
         text-decoration: none;
@@ -63,6 +66,10 @@ export const AnimationContainer = styled.div`
 
         svg{
             margin-right: 8px;
+        }
+
+        &:hover{
+            color: ${shade(0.2, '#F0F4F4')};
         }
 
     }

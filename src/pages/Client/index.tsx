@@ -83,7 +83,7 @@ const CadastroCliente: React.FC = () => {
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Cadastro de cliente</h1>
+                        <h3>Cadastro de cliente</h3>
                         <Input type="text" placeholder="CPF " name="doc" mask="cpf"/>
             
                         <Input type="text" placeholder="Nome " name="name"/>

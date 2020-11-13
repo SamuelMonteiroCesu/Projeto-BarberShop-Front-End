@@ -65,7 +65,7 @@ const LoginClient: React.FC = () => {
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Login Cliente</h1>
+                        <h3>Login Cliente</h3>
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
                         <Input type="text" placeholder="DD/MM/AA " name="password" mask="datas"/>

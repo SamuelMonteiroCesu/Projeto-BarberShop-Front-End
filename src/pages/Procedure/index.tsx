@@ -104,6 +104,7 @@ const CadastroProcedimento: React.FC = () =>{
                 </Form>
                     
                 <Link to="/procedimentos">
+                    <FiArrowLeft/>
                     Voltar
                 </Link>
         </Content>

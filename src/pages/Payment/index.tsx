@@ -9,6 +9,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface PaymentProps{
     name: string,
@@ -100,6 +101,7 @@ const ManagementPayment: React.FC = () => {
                     <Button type="submit">Enviar</Button>
             </Form>
             <Link to="/pagamentos">
+            <FiArrowLeft/>
                 Voltar
             </Link>
             </AnimationContainer>
