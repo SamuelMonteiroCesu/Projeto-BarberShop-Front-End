@@ -36,7 +36,22 @@ export const AnimationContainer = styled.div`
 
     display: flex;
     flex-direction: column;
+    
+    button{
+        margin-top: 300px;
+        background: transparent;
+        border: 0;
+        color: #F0F4F4;
 
+        svg{
+            margin-right: 5px; 
+            color: #F0F4F4;
+            width: 18px;
+            height: 18px;
+            
+        }
+        
+    }
     animation: ${apparFromLeft} 1s;
 
     h1{

@@ -59,21 +59,21 @@ const Login: React.FC = () => {
         }
     }, [ login, addToast] );
     return(
-        <Container>
+         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Login Funcionario</h1>
+                        <h3>Faça seu Login</h3>
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
-                        <Input type="password" placeholder="Senha " name="password" mask="datas"/>
+                        <Input type="password" placeholder="Senha " name="password"/>
 
                         <Button type="submit">Entrar</Button>
 
                     </Form>
                 </AnimationContainer>
             </Content>
-        {/* <Background /> */}
+        
         </Container>
     );
 }

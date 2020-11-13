@@ -54,7 +54,7 @@ const CadastroCliente: React.FC = () => {
             });
             
             await api.post('/client/', data);
-            history.push('/client/');
+            history.push('/login/');
 
             addToast({
                 type: 'success',
@@ -83,7 +83,7 @@ const CadastroCliente: React.FC = () => {
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Em andamento...</h1>
+                        <h1>Cadastro de cliente</h1>
                         <Input type="text" placeholder="CPF " name="doc" mask="cpf"/>
             
                         <Input type="text" placeholder="Nome " name="name"/>
@@ -92,15 +92,10 @@ const CadastroCliente: React.FC = () => {
                 
                         <Input type="text" placeholder="E-mail " name="email"/>
             
-                        <Input type="text" placeholder="Celular " name="cellphone"/>
+                        {/* <Input type="text" placeholder="Celular " name="cellphone"/> */}
 
                         <Button type="submit">Enviar</Button>
                     </Form>
-                    {/* <ul>
-                        {cliente.map((client)=>(
-                            <li key={client.last_name}> ({client.first_name}) </li>
-                        ))}
-                    </ul> */}
                     <Link to="/login">
                         <FiArrowLeft/>
                         Voltar

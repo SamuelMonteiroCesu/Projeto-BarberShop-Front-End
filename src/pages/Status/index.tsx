@@ -7,13 +7,14 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
 import {} from '../../hooks/auth';
+import { datas } from '../../components/Input/style';
 
 
 interface StatusProps{
-    status_id: string,
+    //status_id: number,
     name: string,
     active: string,
 }
@@ -22,9 +23,26 @@ const CadastroStatus: React.FC = () =>{
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
+    const { status_id } = useParams();
+    //const params = useParams();
+
+    const [model, setModel] = useState<StatusProps>();
 
     
-    const handlerSubmit = useCallback (async (data: object) => {
+    useEffect(() =>{
+        if(status_id !== undefined){
+            console.log(findStatus(status_id));
+        }
+        
+    }, [status_id]);
+    
+    async function findStatus(status_id: string){
+        const response = await api.get(`status/${status_id}`);
+        setModel(response.data);
+        console.log('função', response)
+    }
+
+    const handlerSubmit = useCallback (async (data: StatusProps) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
@@ -35,15 +53,21 @@ const CadastroStatus: React.FC = () =>{
             await schema.validate(data, {
                 abortEarly: false,
             });
-            console.log(data);
-            await api.post('/status/', data);
+            if(status_id !== undefined){
+                await api.put(`/status/${status_id}/`, data);
+                addToast({
+                    type: 'success',
+                    title: 'Status atualizado!',
+                });
+            }else{
+                await api.post('/status/', data);
+                addToast({
+                    type: 'success',
+                    title: 'Novo Status cadastrado!',
+                });
+           }
             history.push('/status');
 
-            addToast({
-                type: 'success',
-                title: 'Cadastro realizado com sucesso!',
-                description: 'Novo Status pronto.',
-            });
 
         }catch(err){
             if(err instanceof Yup.ValidationError){
@@ -60,48 +84,20 @@ const CadastroStatus: React.FC = () =>{
         }
     }, [] );
 
-    const [statu, setStatus]= useState<StatusProps[]>([]);
-
-        useEffect(() =>{
-            api.get('/status/').then(response =>{
-                setStatus(response.data);
-        })
-    
-    }, []);
-
-    // const handlerUpdate = (name:StatusProps['name'], id: StatusProps['status_id']) =>{
-    //     api.put('/status/', statu)
-    //     .then((statu =>{
-    //         console.log(statu);
-    //     }))
-    //     .catch((err)=>{
-    //         console.log(err);
-    //     })
-       //setStatus(prev => prev.map(statu => statu.status_id === id ? {...statu, name} : statu))
-    //}
-
-    const handlerDelete = (id: StatusProps['status_id']) =>{
-        //api.delete('/status/1', statu.status_id)
-        //setStatus(prev => prev.filter(statu => statu.status_id !== id))
-    }
     return(
         <Container>
-        <Content>
-            <AnimationContainer>
-            <Form ref={ formRef } onSubmit={ handlerSubmit }>
-                <h1>Olá</h1>
-                <Input type="text" name="name" placeholder="Status"/>
-                <Button type="submit">Enviar</Button>
-            </Form>
-                {statu.map((status)=>(
-                    <div key={status.status_id}>
-                        <p>{status.status_id} {status.name} </p>
-                        {/* <button type="button" onClick={() => handlerUpdate}>botão</button> */}
-                          {/* onChange={e => handlerSubmit(e.current.Target.name, status.status_id) } */}
-                    </div>
-                ))}
-            </AnimationContainer>
-        </Content>
+            <Content>
+                <AnimationContainer>
+                    <Form initialData={{name: model?.name}} ref={ formRef } onSubmit={ handlerSubmit }>
+                        <h3>Cadastro de Status</h3>
+                        <Input type="text" name="name" placeholder="Status" />
+                        <Button type="submit">Enviar</Button>
+                    </Form>
+                    <Link to="/status">
+                        Voltar
+                    </Link>
+                </AnimationContainer>
+            </Content>
         </Container>
     );
 };

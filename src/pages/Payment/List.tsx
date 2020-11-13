@@ -9,44 +9,43 @@ import { useToast } from '../../hooks/toast';
 import { FiArrowLeft } from 'react-icons/fi';
 
 interface ProceduresProps{
-    procedure_id: string,
+    payment_id: string,
     name: string,
-    price: string,
-    time: string,
-    activate: string,
+    discount: string,
+    tax: string,
 }
 
 
-const ListProcedure: React.FC = () =>{
+const ListPayment: React.FC = () =>{
 
-    const [procedures, setProcedure] = useState<ProceduresProps[]>([]);
+    const [payments, setPayments] = useState<ProceduresProps[]>([]);
     const history = useHistory(); 
     const { addToast } = useToast();
+
     useEffect(() =>{
-        loadProcedure();
+        loadPayment();
     }, []);
 
-    async function loadProcedure() {
-        const response = await api.get('/procedure')
-        //console.log('esse', response)
-        setProcedure(response.data)
+    async function loadPayment() {
+        const response = await api.get('/payment')
+        setPayments(response.data)
     }
 
-    function newProcedure(){
-        history.push('cadastro_procedimento');
+    function newPayment(){
+        history.push('cadastro_pagamento');
     }
 
-    function editProcedure(procedure_id: string){
-        history.push(`/cadastro_procedimento/${procedure_id}`);
+    function editPayment(payment_id: string){
+        history.push(`/cadastro_pagamento/${payment_id}`);
     }
 
-    async function deleteProcedure(procedure_id: string){
-        await api.delete(`/procedure/${procedure_id}`);
+    async function deleteProcedure(payment_id: string){
+        await api.delete(`/payment/${payment_id}`);
         addToast({
             type: 'info',
-            title: 'Procedimento deletado!',
-        });
-        loadProcedure();
+            title: 'Forma de pagamento deletado!'
+        })
+        loadPayment();
     }
 
     return(
@@ -56,51 +55,51 @@ const ListProcedure: React.FC = () =>{
             <br/>
             <div className="container">
                 <div className="task-header">
-                    <h1>Procedimentos</h1>
-                    <Button variant="success" size="sm" onClick={newProcedure}>Novo Procedimento</Button>
+                    <h1>Formas de pagamento</h1>
+                    <Button variant="success" size="sm" onClick={newPayment}>Novo Pagamento</Button>
                 </div>
                 <br/>
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
-                        <th>Procedimento</th>
-                        <th>Tempo estimado</th>
-                        <th>Preço</th>
+                        <th>Forma</th>
+                        <th>Desconto</th>
+                        <th>Taxa</th>
                         <th>Opções</th>
                         </tr>
                     </thead>
                     <tbody>
                     {
-                    procedures.map((procedure)=>(
-                        <tr key={procedure.procedure_id}>
-                            <td>{procedure.name}</td>
-                            <td>{procedure.time}</td>
-                            <td>{procedure.price}</td>
+                    payments.map((payment)=>(
+                        <tr key={payment.payment_id}>
+                            <td>{payment.name}</td>
+                            <td>{payment.discount}</td>
+                            <td>{payment.tax}</td>
                             <td>
                                 <Button 
                                     size="sm" 
                                     variant="info" 
-                                    onClick={() =>editProcedure(procedure.procedure_id)}>Editar
+                                    onClick={() =>editPayment(payment.payment_id)}>Editar
                                 </Button>{' '}
                                 <Button 
                                     size="sm" 
                                     variant="danger" 
-                                    onClick={() => deleteProcedure(procedure.procedure_id)}>Remover
+                                    onClick={() => deleteProcedure(payment.payment_id)}>Remover
                                 </Button>
                             </td>
                         </tr>
                     ))}
                     </tbody> 
-                </Table>
+                </Table> 
                 <Links>
                     <Link to="/dashboard">
                     <FiArrowLeft/>
                         Voltar
                     </Link>
-                </Links>
+                </Links>      
             </div>
         </div>
     );
 };
 
-export default ListProcedure;
+export default ListPayment;

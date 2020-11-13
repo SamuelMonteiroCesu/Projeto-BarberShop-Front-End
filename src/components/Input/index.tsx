@@ -26,16 +26,16 @@ const Input: React.FC<InputProps> = ({mask, name, icon: Icon,...rest}) => {
 
     const handlerKeyUp = useCallback((e: React.FormEvent<HTMLInputElement>) =>{
 
-        if(mask == "cpf"){
+        if(mask === "cpf"){
             cpf(e);
         }
-        if(mask == "datas"){
+        if(mask === "datas"){
             datas(e);
         }
-        if(mask == "currency"){
+        if(mask === "currency"){
             currency(e);
         }
-        if(mask == "hours"){
+        if(mask === "hours"){
             hours(e);
         }
     }, [mask]);

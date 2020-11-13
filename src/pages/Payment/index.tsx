@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Container, Content, AnimationContainer } from './style';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -7,16 +7,35 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
+
+interface PaymentProps{
+    name: string,
+    discount: string,
+    tax: string,
+}
 
 const ManagementPayment: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
+    const { payment_id } = useParams();
+    const [ payments, setPayments] = useState<PaymentProps>();
+    useEffect(() =>{
+        if(payment_id !== undefined){
+            console.log(findPayment(payment_id));
+        }     
+    }, [payment_id]);
     
-    const handlerSubmit = useCallback (async (data: object) => {
+    async function findPayment(payment_id: string){
+        const response = await api.get(`payment/${payment_id}`);
+        setPayments(response.data);
+        console.log('função', response)
+    }
+
+    const handlerSubmit = useCallback (async (data: PaymentProps) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
@@ -27,15 +46,22 @@ const ManagementPayment: React.FC = () => {
                 abortEarly: false,
             });
             console.log(data);
-            
-            api.post('/payment/', data);
-            history.push('/dashboard');
+            if(payment_id !== undefined){
+                await api.put(`/payment/${payment_id}/`, data);
+                addToast({
+                    type: 'success',
+                    title: 'Forma de pagamento atualizado!',
+                });
+            }else{
+                await api.post('/payment/', data);  
+                addToast({
+                    type: 'success',
+                    title: 'Nova forma de pagamento cadastrado!',
+                });
+            }
+            history.push('/pagamentos');
 
-            addToast({
-                type: 'success',
-                title: 'Cadastro realizado com sucesso!',
-                description: 'Nova forma de pagamento pronta.',
-            });
+            
 
         }catch(err){
             if(err instanceof Yup.ValidationError){
@@ -55,8 +81,16 @@ const ManagementPayment: React.FC = () => {
         <Container>
         <Content>
             <AnimationContainer>
-            <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                <h1>Formas de pagamentos</h1>
+            <Form 
+            ref={ formRef }  
+            onSubmit={handlerSubmit}
+            initialData={{
+                name: payments?.name,
+                discount: payments?.discount,
+                tax: payments?.tax,
+                }}
+            >
+                <h3>Cadastro de Formas de pagamentos</h3>
                     <Input type="text" placeholder="Forma" name="name"/>
             
                     <Input type="text" placeholder="Desconto" name="discount" mask="currency"/>
@@ -65,6 +99,9 @@ const ManagementPayment: React.FC = () => {
 
                     <Button type="submit">Enviar</Button>
             </Form>
+            <Link to="/pagamentos">
+                Voltar
+            </Link>
             </AnimationContainer>
         </Content>
         {/* <Background /> */}

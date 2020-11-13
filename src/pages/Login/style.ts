@@ -14,11 +14,15 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    background: #939393;
     place-content: center;
-    
-    width: 100%;
+    position: absolute;
+    width: 500px;
+    height: 600px; 
+    margin-top: 24px;
+    margin-left: 100px;
     max-width: 700px;
+    border-radius: 10px;
 `;
 
 const apparFromLeft = keyframes `
