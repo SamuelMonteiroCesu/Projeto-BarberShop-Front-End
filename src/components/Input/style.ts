@@ -78,11 +78,11 @@ export function cpf(e: React.FormEvent<HTMLInputElement>){
 }
 
 export function datas(e: React.FormEvent<HTMLInputElement>){
-    e.currentTarget.maxLength = 8;
+    e.currentTarget.maxLength = 10;
     let value = e.currentTarget.value;
     value = value.replace(/\D/g, "");
     value = value.replace(/^(\d{2})(\d)/, "$1/$2");
-    value = value.replace(/(\d)(\d{2})$/, "$1/$2");
+    value = value.replace(/(\d)(\d{4})$/, "$1/$2");
     //value = value.replace(/(?=(\d{2})+(\D))\B/g, "/");
     e.currentTarget.value = value;
     return e;

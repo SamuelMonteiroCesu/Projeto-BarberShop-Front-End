@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 //import LoginBackground from '../../assets/back.jpg'
 
@@ -14,14 +14,38 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    background: #939393;
     place-content: center;
-    
-    width: 100%;
-    max-width: 700px;
+    position: absolute;
+    width: 500px;
+    height: 645px; 
+    margin-top: 8px;
+    margin-left: 100px;
+    max-width: 800px;
+    border-radius: 10px;
+`;
+
+const apparFromLeft = keyframes `
+    from{
+        opacity: 0;
+        transform: translateX(-50px); 
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);   
+    }
+`;
+
+export const AnimationContainer = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    animation: ${apparFromLeft} 1s;
 
     form{
-        margin: 80px 0;
+        margin: 80px 0 16px;
         width: 340px;
         text-align: center;
     }
@@ -33,7 +57,7 @@ export const Content = styled.div`
     a{
         color: #FFFFFF;
         display: block;
-        margin-top: 24px;
+        margin-top: 16px;
         text-decoration: none;
         transition: color 0.2s;
 
@@ -41,11 +65,28 @@ export const Content = styled.div`
         aling-item: center;
 
         svg{
-            margin-right: 16px;
+            margin-right: 8px;
         }
 
         &:hover{
             color: ${shade(0.2, '#FFFFFF')};
         }
     }
+`;
+
+export const Links = styled.div`
+ 
+    a{
+        color: #F0F4F4;
+        text-decoration: none;
+        
+        svg{
+            margin-right: 8px;
+        }
+
+        &:hover{
+            color: ${shade(0.2, '#F0F4F4')};
+        }
+    }
+    
 `;

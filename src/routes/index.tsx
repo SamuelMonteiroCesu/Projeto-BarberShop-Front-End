@@ -11,7 +11,7 @@ import ListProcedure from '../pages/Procedure/List';
 
 import ManagementPayment from '../pages/Payment/index';
 import ListPayment from '../pages/Payment/List';
-import Employee from '../pages/Employee';
+import ManagementEmployee from '../pages/Employee';
 import CadastroCliente from '../pages/Client';
 import LoginClient from '../pages/Login/LoginClient';
 import Login from '../pages/Login';
@@ -26,6 +26,12 @@ const Routes: React.FC = () =>(
         <Route path="/login" component={LoginClient}/>
         <Route path="/cadastro" component={CadastroCliente}/>
         {/* CLIENT */}
+
+        {/* Employee */}
+        <Route path="/funcionarios" exact component={ManagementEmployee} isPrivate/>
+        <Route path="/cadastro_funcionarios" exact component={ManagementEmployee} isPrivate/>
+        {/* Employee */}
+
         <Route path="/dashboard" component={Dashboard} isPrivate />
 
         {/* STATUS */}

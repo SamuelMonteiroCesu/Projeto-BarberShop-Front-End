@@ -23,7 +23,7 @@ const Dashboard: React.FC = () =>{
                 {/* <FiLogIn/> */}
                 Status
             </Link>
-            <Link to="funcionarios">
+            <Link to="cadastro_funcionarios">
                 {/* <FiLogIn/> */}
                 Funcionários
             </Link>
