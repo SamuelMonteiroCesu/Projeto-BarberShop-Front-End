@@ -5,6 +5,7 @@ import { BiLogOutCircle, BiUserCircle } from 'react-icons/bi'
 import { Container, Header, HeaderContent, Profile, Content, AnimationContainer } from './style';
 import { useAuth } from '../../hooks/auth';
 import { FiPower } from 'react-icons/fi';
+import { Links } from '../Status/style';
 const Dashboard: React.FC = () =>{
 
     const { logout } = useAuth();
@@ -16,12 +17,14 @@ const Dashboard: React.FC = () =>{
                         <BiUserCircle/>
                         <div>
                             <span>Bem-vindo,</span>
-                            <strong>Samuel Monteiro</strong>
+                            <Link to="/perfil">
+                                <strong>Samuel Monteiro</strong>
+                            </Link>
                         </div>
+                    </Profile>
                         <button type="button" onClick={logout}>
                             <FiPower/>
                         </button>
-                    </Profile>
                 </HeaderContent>
             </Header>
         <Content>
@@ -46,6 +49,12 @@ const Dashboard: React.FC = () =>{
                 <BiLogOutCircle/>
                 Sair
             </button> */}
+            <Link to="dashboard_cliente">  
+                Teste
+            </Link>
+            <Link to="agendados">
+                Agendamentos
+            </Link>
             </AnimationContainer>
         </Content>
         </Container>

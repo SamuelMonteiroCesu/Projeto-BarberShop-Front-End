@@ -11,13 +11,18 @@ import ListProcedure from '../pages/Procedure/List';
 
 import ManagementPayment from '../pages/Payment/index';
 import ListPayment from '../pages/Payment/List';
-import ManagementEmployee from '../pages/Employee';
+
+import ManagementEmployee from '../pages/Employee'
+import Login from '../pages/Login';
+
 import CadastroCliente from '../pages/Client';
 import LoginClient from '../pages/Login/LoginClient';
-import Login from '../pages/Login';
+
+
 import Dashboard from '../pages/Dashboard';
-//import Dashboard from '../teste/Dashboard';
-//import PrivateRoute from './PrivateRoute';
+import DashboardClient from '../pages/Dashboard/Client';
+
+import Scheduled from '../pages/Scheduled'
 
 const Routes: React.FC = () =>(
     <Switch>
@@ -51,6 +56,14 @@ const Routes: React.FC = () =>(
         <Route path="/cadastro_pagamento" exact component={ManagementPayment} isPrivate />
         <Route path="/cadastro_pagamento/:payment_id" exact component={ManagementPayment} isPrivate />
          {/* PAYMENT */}  
+
+         {/* Teste */}
+         <Route path="/dashboard_cliente" exact component={DashboardClient} isPrivate />
+          {/* Teste */}
+
+          {/* Agendamentos */}
+         <Route path="/agendados" exact component={Scheduled} isPrivate/>
+          {/* Agendamentos */}
     </Switch>
 );
 

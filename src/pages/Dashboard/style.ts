@@ -84,7 +84,7 @@ export const HeaderContent = styled.div`
     align-items: center;
 
     button{
-        margin-left: 750px;
+        margin-left: auto;
         background: transparent;
         border: 0;
 
@@ -116,6 +116,11 @@ export const Profile = styled.div`
 
         span{
             color: #E0E0E0;
+        }
+        a{
+            text-decoration: none;
+            color: FFFFFF;
+            
         }
     }
 
