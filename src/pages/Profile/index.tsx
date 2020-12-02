@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useContext, useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Container, Content, Passwords } from './style';
 import { useToast } from '../../hooks/toast';
@@ -14,10 +14,9 @@ import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 
-import { FiArrowLeft } from 'react-icons/fi';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { useAuth } from '../../hooks/auth';
-import { create } from 'domain';
+
 
 interface registerClient{
     username: string,
@@ -25,13 +24,6 @@ interface registerClient{
     last_name: string,
     email: string,
 }
-
-interface PasswordsProps{
-    newpassword: String,
-    passwordConfirm: string,
-}
-
-
 
 const Profile: React.FC = () =>{
     const { user, updateUser } = useAuth();
@@ -59,8 +51,7 @@ const Profile: React.FC = () =>{
                 updateUser(response.data);
                 addToast({
                     type: 'success',
-                    title: 'Cadastro realizado com sucesso!',
-                    description: 'Você já pode efetuar seu login.',
+                    title: 'Alterações realizado com sucesso!',
                 });
             });
             history.push('/dashboard/');
@@ -75,8 +66,8 @@ const Profile: React.FC = () =>{
             }
             addToast({
                 type: 'error',
-                title: 'Erro no cadastro',
-                description: 'Ocorreu um erro ao fazer o cadastro, tente novamente.',
+                title: 'Erro ao atualizar',
+                description: 'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
             });
         }
     }, [addToast, history, updateUser] );
