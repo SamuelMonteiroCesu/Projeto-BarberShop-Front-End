@@ -50,11 +50,13 @@ export const AnimationContainer = styled.div`
         color: #FFFFFF;
         font-size: 28px;
     }
+    
     form{
         margin: 80px 0 16px;
         width: 340px;
         text-align: center;
-    }
+
+    } 
 
     a{
         margin-top: 8px;

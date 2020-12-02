@@ -7,7 +7,7 @@ export const Container = styled.div`
 
 export const Header = styled.header`
 padding: 32px 0;
-background: #808080; 
+background: #5D6D7E; 
 `;
 
 export const HeaderContent = styled.div`
@@ -49,6 +49,15 @@ div{
 
     span{
         color: #E0E0E0;
+    }
+
+     a{
+        text-decoration: none;
+        color: #FFFFFF;
+
+        &:hover{
+            opacity: 0.8;
+        }
     }
 }
 
@@ -102,7 +111,7 @@ export const NextAppointment = styled.div`
     }
 
     div{
-        background: #85929E; 
+        background: #5D6D7E; 
         display: flex;
         align-items: center;
         padding: 16px 24px;
@@ -137,7 +146,7 @@ export const NextAppointment = styled.div`
             align-items: center;
 
             svg{
-                color: #2E86C1;
+                color: #5DADE2;
                 margin-right: 8px;
             }
         }
@@ -182,7 +191,7 @@ export const Appointments = styled.div`
 
     div{
         flex: 1;
-        background: #85929E; 
+        background: #5D6D7E; 
         display: flex;
         align-items: center;
         padding: 16px 24px;

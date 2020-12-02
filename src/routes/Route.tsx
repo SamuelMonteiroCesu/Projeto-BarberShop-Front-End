@@ -8,29 +8,30 @@ import {
 import { useAuth } from '../hooks/auth';
  
 interface RouteProps extends ReactDOMRouteProps{
-    isPrivate?: boolean;
+    isEmployee?: boolean;
+    isClient?: boolean;
     component: React.ComponentType;
 }
-const Route: React.FC <RouteProps> = ({ isPrivate = false, component: Component, ...rest}) =>{
-    const { refresh } = useAuth();
-
-    return(
-        <ReactDOMRoute
-            {...rest}
-            render={({ location }) =>{
-                return isPrivate === !!refresh ?(
-                    <Component/>
-                ) : (
-                    <Redirect 
-                        to={{ pathname: isPrivate ? '/' : '/dashboard',
-                        state: { from: location },
-                        }}
-                    />
-                )
-            }}
-        />
-
-    );
+const Route: React.FC <RouteProps> = ({ isEmployee = false, isClient = false, component: Component, ...rest}) =>{
+   const { refresh } = useAuth();
+   
+        return(
+            <ReactDOMRoute
+                {...rest}
+                
+                render={({ location }) =>{
+                    return isEmployee === !!refresh ?(
+                        <Component/>
+                    ) : (
+                        <Redirect 
+                            to={{ pathname: isEmployee ? '/' : '/dashboard',
+                            state: { from: location },
+                            }}
+                        />
+                    )
+                }}
+            />
+        );
 };
 
 export default Route;

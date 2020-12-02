@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { Container, Content, AnimationContainer } from './style';
-
+import api from '../../services/api';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -12,68 +12,77 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import { useAuth } from '../../hooks/auth'
 import { useToast} from '../../hooks/toast'
-import { Link } from 'react-router-dom';
+import { title } from 'process';
+import { Link, useHistory } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 //import api from '../../services/api';
 // import { FiMail, FiLock } from 'react-icons/fi';
 
-interface LoginFormData{
-    username: string,
-    password: string,
+interface RecoveryData{
+    CPF: string,
+    email: string,
 }
 
-const Login: React.FC = () => {
+const RecoveryPass: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
-    
-   const { refresh, login } = useAuth();
+    const history = useHistory();
     const { addToast } = useToast();
 
-    console.log(refresh);
-
-    const handlerSubmit = useCallback (async (data: LoginFormData) => {
+    const handlerSubmit = useCallback (async (data: RecoveryData) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
-                username: Yup.string().required('Digite seu C.P.F.'),
-                password: Yup.string().min(6, 'Senha inválida.'),
+                CPF: Yup.string().required('Digite seu C.P.F.'),
+                email: Yup.string().email('Digite um e-mail válido.'),
                 
             });
+
 
             await schema.validate(data, {
                 abortEarly: false,
             });
-        login({
-            username: data.username,
-            password: data.password,
-        });
+
+            await api.post('/passrecover/', data);
+            addToast({
+                type: 'success',
+                title: 'Nova senha enviada!',
+                description: 'Verifique sua caixa de e-mail.' 
+            })
+
+            history.push('/');
+
         }catch(err){
             if(err instanceof Yup.ValidationError){
                 const errors = getValidationErrors(err);
                 formRef.current?.setErrors( errors );
+
+                return;
             }
             addToast({
                 type: 'error',
-                title: 'Erro na autenticação',
-                description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+                title: 'Erro de envio',
+                description: 'Ocorreu um erro ao enviar o e-mail, tente novamente.',
             });
         }
-    }, [ login, addToast] );
+    }, [addToast] );
     return(
          <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h1>Faça seu Login</h1>
-                        <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
+                        <h1>Recuperação de senha</h1>
+                        <Input type="text" placeholder="CPF " name="CPF" mask="cpf"/>
                 
-                        <Input type="password" placeholder="Senha " name="password"/>
+                        <Input type="text" placeholder="E-mail " name="email"/>
 
-                        <Button type="submit">Entrar</Button>
+                        <Button type="submit">Enviar</Button>
 
                     </Form>
-                    <Link to="recuperar_senha">
-                        Esqueci minha senha
+                    <Link to="/procedimentos">
+                        <FiArrowLeft/>
+                        Voltar
                     </Link>
                 </AnimationContainer>
             </Content>
@@ -82,4 +91,4 @@ const Login: React.FC = () => {
     );
 }
 
-export default Login;
+export default RecoveryPass;

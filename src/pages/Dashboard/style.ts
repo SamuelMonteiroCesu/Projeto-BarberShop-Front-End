@@ -6,7 +6,7 @@ export const Container = styled.div``;
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #808080;
+    background-color: #5D6D7E;
     padding: 0 0 352px;
     place-content: center;
     
@@ -74,7 +74,7 @@ export const AnimationContainer = styled.div`
 
 export const Header = styled.header`
     padding: 32px 0;
-    background: #808080; 
+    background: #5D6D7E; 
 `;
 
 export const HeaderContent = styled.div`
@@ -113,14 +113,18 @@ export const Profile = styled.div`
         flex-direction: column;
         margin-left: 16px;
         line-height: 24px;
-
+    
         span{
             color: #E0E0E0;
         }
-        a{
+    
+         a{
             text-decoration: none;
-            color: FFFFFF;
-            
+            color: #FFFFFF;
+    
+            &:hover{
+                opacity: 0.8;
+            }
         }
     }
 

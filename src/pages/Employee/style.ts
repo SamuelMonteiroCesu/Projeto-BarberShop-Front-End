@@ -14,7 +14,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #939393;
+    background: #5D6D7E;
     place-content: center;
     position: absolute;
     width: 500px;
@@ -23,6 +23,7 @@ export const Content = styled.div`
     margin-left: 100px;
     max-width: 800px;
     border-radius: 10px;
+
 `;
 
 const apparFromLeft = keyframes `
@@ -52,6 +53,8 @@ export const AnimationContainer = styled.div`
 
     h1{
         margin-bottom: 24px;
+        color: #E0E0E0;
+        font-size: 26px;
     }
 
     a{

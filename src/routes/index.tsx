@@ -24,6 +24,9 @@ import DashboardClient from '../pages/Dashboard/Client';
 
 import Scheduled from '../pages/Scheduled'
 
+import  Profile  from '../pages/Profile';
+import RecoveryPass from '../pages/RecoveryPassword';
+
 const Routes: React.FC = () =>(
     <Switch>
         {/* CLIENT */}
@@ -32,38 +35,46 @@ const Routes: React.FC = () =>(
         <Route path="/cadastro" component={CadastroCliente}/>
         {/* CLIENT */}
 
+        {/* RECOVERY */}
+        <Route path="/recuperar_senha" component={RecoveryPass}/>
+        {/* RECOVERY */}
+
         {/* Employee */}
-        <Route path="/funcionarios" exact component={ManagementEmployee} isPrivate/>
-        <Route path="/cadastro_funcionarios" exact component={ManagementEmployee} isPrivate/>
+        <Route path="/funcionarios" exact component={ManagementEmployee} isEmployee/>
+        <Route path="/cadastro_funcionarios" exact component={ManagementEmployee} isEmployee/>
         {/* Employee */}
 
-        <Route path="/dashboard" component={Dashboard} isPrivate />
+        <Route path="/dashboard" component={Dashboard} isEmployee />
 
         {/* STATUS */}
-        <Route path="/status" exact component={ManageStatus} isPrivate />
-        <Route path="/cadastro_status/" exact component={CadastroStatus} isPrivate />
-        <Route path="/cadastro_status/:status_id" exact component={CadastroStatus} isPrivate />
+        <Route path="/status" exact component={ManageStatus} isEmployee />
+        <Route path="/cadastro_status/" exact component={CadastroStatus} isEmployee />
+        <Route path="/cadastro_status/:status_id" exact component={CadastroStatus} isEmployee />
         {/* STATUS */}
 
         {/* PROCEDURE */}
-        <Route path="/procedimentos" exact component={ListProcedure} isPrivate />
-        <Route path="/cadastro_procedimento" exact component={Procedure} isPrivate />
-        <Route path="/cadastro_procedimento/:procedure_id" exact component={Procedure} isPrivate />
+        <Route path="/procedimentos" exact component={ListProcedure} isEmployee />
+        <Route path="/cadastro_procedimento" exact component={Procedure} isEmployee />
+        <Route path="/cadastro_procedimento/:procedure_id" exact component={Procedure} isEmployee />
         {/* PROCEDURE */}
 
         {/* PAYMENT */}   
-        <Route path="/pagamentos" exact component={ListPayment} isPrivate />
-        <Route path="/cadastro_pagamento" exact component={ManagementPayment} isPrivate />
-        <Route path="/cadastro_pagamento/:payment_id" exact component={ManagementPayment} isPrivate />
+        <Route path="/pagamentos" exact component={ListPayment} isEmployee />
+        <Route path="/cadastro_pagamento" exact component={ManagementPayment} isEmployee />
+        <Route path="/cadastro_pagamento/:payment_id" exact component={ManagementPayment} isEmployee />
          {/* PAYMENT */}  
 
          {/* Teste */}
-         <Route path="/dashboard_cliente" exact component={DashboardClient} isPrivate />
+         <Route path="/dashboard_cliente" exact component={DashboardClient} isEmployee />
           {/* Teste */}
 
           {/* Agendamentos */}
-         <Route path="/agendados" exact component={Scheduled} isPrivate/>
+         <Route path="/agendados" exact component={Scheduled} isEmployee/>
           {/* Agendamentos */}
+
+          {/* Perfil */}
+          <Route path="/perfil" exact component={Profile} isEmployee/>
+          {/* Perfil */}
     </Switch>
 );
 

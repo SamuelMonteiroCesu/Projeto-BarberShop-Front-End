@@ -67,7 +67,7 @@ const ManagementEmployee: React.FC = () =>{
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef } onSubmit={ handlerSubmit }>
-                        <h3>Cadastro de Funcionário</h3>
+                        <h1>Cadastro de Funcionário</h1>
                         
                         <Input type="text" placeholder="CPF " name="doc" mask="cpf"/>
 
