@@ -1,44 +1,131 @@
-import { stripUnit } from 'polished';
 import styled, { keyframes } from 'styled-components';
+import { shade } from 'polished';
 
-import {DatePicker, TimePicker} from 'antd';
-
-export const Container = styled.div`
-    height: 100vh;
-    display: flex;
-    aling-items: stretch;
-
-`;
+export const Container = styled.div``;
 
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background: #939393;
+    background-color: #5D6D7E;
+    padding: 0 0 352px;
     place-content: center;
-    position: absolute;
-    width: 500px;
-    height: 600px; 
-    margin-top: 24px;
-    margin-left: 100px;
-    max-width: 700px;
-    border-radius: 10px;
+    
+    width: 100%;
+    max-width: 200px;
+
 `;
 
-export const Date = styled(DatePicker)`
-    background: #F0F4F4;
-    border-radius: 10px;
-    border: 2px solid #939393;
-    padding: 16px;
-    width: 100%;
-    color: #939393;
+const apparFromLeft = keyframes `
+    from{
+        opacity: 0;
+        transform: translateX(-50px); 
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);   
+    }
 `;
 
-export const Times = styled(TimePicker)`
-    background: #F0F4F4;
-    border-radius: 10px;
-    border: 2px solid #939393;
-    padding: 16px;
-    width: 100%;
-    color: #939393;
+export const AnimationContainer = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 auto;
+    button{
+        margin-top: 300px;
+        background: transparent;
+        border: 0;
+        color: #F0F4F4;
+
+        svg{
+            margin-right: 5px; 
+            color: #F0F4F4;
+            width: 18px;
+            height: 18px;
+            
+        }
+        
+    }
+    animation: ${apparFromLeft} 1s;
+
+    h1{
+        margin-bottom: 24px;
+    }
+
+    a{
+        color: #FFFFFF;
+        display: block;
+        margin-top: 16px;
+        text-decoration: none;
+        transition: color 0.2s;
+
+        display: center;
+        aling-item: center;
+
+        svg{
+            margin-right: 8px;
+        }
+
+        &:hover{
+            color: ${shade(0.2, '#FFFFFF')};
+        }
+    }
+`;
+
+export const Header = styled.header`
+    padding: 32px 0;
+    background: #5D6D7E; 
+`;
+
+export const HeaderContent = styled.div`
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+
+    button{
+        margin-left: auto;
+        background: transparent;
+        border: 0;
+
+        svg{
+            color: #FFFFFF;
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+`;
+
+export const Profile = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 80px;
+
+    svg{
+        color: #E0E0E0;
+        width: 50px;
+        height: 50px;
+    }
+
+    div{
+        display: flex;
+        flex-direction: column;
+        margin-left: 16px;
+        line-height: 24px;
+    
+        span{
+            color: #E0E0E0;
+        }
+    
+         a{
+            text-decoration: none;
+            color: #FFFFFF;
+    
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+    }
+
 `;

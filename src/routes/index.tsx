@@ -22,11 +22,14 @@ import LoginClient from '../pages/Login/LoginClient';
 import Dashboard from '../pages/Dashboard';
 import DashboardClient from '../pages/Dashboard/Client';
 
-import Scheduled from '../pages/Scheduled'
+import ScheduledTest from '../pages/ScheduledTest'
 
 import  Profile  from '../pages/Profile';
 import RecoveryPass from '../pages/RecoveryPassword';
 
+import ScheduleProfessional from '../pages/ScheduleProfessional';
+import ScheduleClient from '../pages/ScheduledClient';
+import HistoricClient from '../pages/HistoricClient';
 const Routes: React.FC = () =>(
     <Switch>
         {/* CLIENT */}
@@ -69,12 +72,22 @@ const Routes: React.FC = () =>(
           {/* Teste */}
 
           {/* Agendamentos */}
-         <Route path="/agendados" exact component={Scheduled} isEmployee/>
+         <Route path="/agendados" exact component={ScheduledTest} isEmployee/>
           {/* Agendamentos */}
 
           {/* Perfil */}
           <Route path="/perfil" exact component={Profile} isEmployee/>
           {/* Perfil */}
+
+          {/* Profissional agenda cliente */}
+          <Route path="/agendar_cliente/" exact component={ScheduleProfessional} isEmployee/>
+          <Route path="/agendar_cliente/:id" exact component={ScheduleProfessional} isEmployee/>
+           {/* Profissional agenda cliente */}
+
+            {/* Cliente se agenda */}
+           <Route path="/novo_agendamento/" exact component={ScheduleClient} isEmployee/>
+           <Route path="/agendamentos/" exact component={HistoricClient} isEmployee/>
+            {/* Cliente se agenda */}
     </Switch>
 );
 

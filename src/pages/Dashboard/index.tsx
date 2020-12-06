@@ -59,7 +59,7 @@ const Dashboard: React.FC = () =>{
                     <BiLogOutCircle/>
                     Sair
                 </button> */}
-                <Link to="dashboard_cliente">  
+                <Link to="agendar_cliente">  
                     Teste
                 </Link>
                 <Link to="agendados">
