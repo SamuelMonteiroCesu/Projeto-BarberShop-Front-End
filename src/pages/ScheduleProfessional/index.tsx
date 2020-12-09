@@ -119,7 +119,7 @@ const ScheduleProfessional: React.FC = () =>{
                 title: 'Cliente agendado com sucesso!',
             });
             history.push('')
-        }
+        }   
         
     }
 
@@ -144,14 +144,18 @@ const ScheduleProfessional: React.FC = () =>{
             api.get(`/appointment/${id}/`).then((response) => {
                 setAppdate(sessionStorage.getItem('appdate') || '');
                 setApphour(sessionStorage.getItem('apphour') || '');
-                //alert(JSON.stringify(response.data));
+                // alert(JSON.stringify(response.data));
+                const { status, procedure, client, professional, payment } = response.data;
+                setProcedure(procedure.procedure_id);
+                setStatu(status.status_id);
+                setClient(client.id);
+                setProfessional(professional.id);
+                setPayment(payment.payment_id);
+
             })
         }
     }, ['loading'])
 
-    function carrega(){
-
-    }
     return(
         <Container>
             <Content>
@@ -168,35 +172,35 @@ const ScheduleProfessional: React.FC = () =>{
                         name="apphour" 
                         placeholder="HORA" />
                     
-                    <select name="status" onChange={e => {setStatu(e.target.value)}}>
+                    <select name="status" onChange={e => {setStatu(e.target.value)}} value={statu}>
                     <option>Selecione um status</option>
                     {status.map((status) =>(
                             <option key={status.status_id} value={status.status_id}>{status.name}</option>
                     ))}
                     </select>
 
-                    <select name="procedure" onChange={e => {setProcedure(e.target.value)}}>
+                    <select name="procedure" onChange={e => {setProcedure(e.target.value)}} value={procedure}>
                         <option value="">Selecione um procedimento</option>
                         {procedures.map((procedures) =>(
                             <option key={procedures.procedure_id} value={procedures.procedure_id}>{procedures.name}</option>
                         ))}
                     </select>
 
-                    <select name="client" onChange={e => {setClient(e.target.value)}}>
+                    <select name="client" onChange={e => {setClient(e.target.value)}} value={client}>
                         <option value="">Selecione um cliente</option>
                         {clients.map((clients) =>(
                             <option key={clients.id} value={clients.id}>{clients.first_name}</option>
                         ))}
                     </select>
 
-                    <select name="professional" onChange={e => {setProfessional(e.target.value)}}>
+                    <select name="professional" onChange={e => {setProfessional(e.target.value)}} value={professional}>
                         <option value="">Selecione um profissional</option>
                         {professionals.map((professionals) =>(
                             <option key={professionals.id} value={professionals.id}>{professionals.first_name}</option>
                         ))}
                     </select>
 
-                    <select name="payment"  onChange={e => {setPayment(e.target.value)}}>
+                    <select name="payment"  onChange={e => {setPayment(e.target.value)}} value={payment}>
                         <option value="">Forma de pagamento</option>
                         {payments.map((payments) =>(
                             <option key={payments.payment_id} value={payments.payment_id}>{payments.name}</option>

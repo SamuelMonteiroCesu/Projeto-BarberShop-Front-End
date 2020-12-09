@@ -12,6 +12,7 @@ export const Content = styled.div`
 
     h1{
         font-size: 28px;
+        color: #FFFFFF;
     }
     input{
         margin: 4px 0 16px;

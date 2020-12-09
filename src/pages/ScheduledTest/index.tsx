@@ -20,6 +20,7 @@ import moment from 'moment'
 import 'moment/locale/pt-br';
 import 'antd/dist/antd.css';
 import locale from 'antd/es/date-picker/locale/pt_BR'
+import { array } from 'yup';
 
 interface profeProps {
     id: number,
@@ -50,6 +51,12 @@ interface procedureProps {
     name: string,
 }
 
+interface statusProps {
+    status_id: string,
+    name: string,
+    active: string,
+}
+
 interface SchedulesProps {
     id: string,
     appdate: string,
@@ -58,7 +65,8 @@ interface SchedulesProps {
     total: string,
     professional: profeProps,
     procedure: procedureProps,
-    payments: paymentsProps,
+    payment: paymentsProps,
+    status: statusProps,
 }
 
 interface testeProps {
@@ -74,6 +82,7 @@ interface professionalProps {
 const ScheduledTest: React.FC = () => {
 
     const { user } = useAuth();
+
     const history = useHistory()
     const { addToast } = useToast();
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -82,8 +91,8 @@ const ScheduledTest: React.FC = () => {
     const [dates, setDates] = React.useState(moment());
     const [professionals, setProfessionals] = useState<professionalProps[]>([]);
     const [freeschedule, setFreeschedule] = useState<testeProps[]>([]);
-    const [professional, setProfessional] = useState('');
-
+    const [professional, setProfessional] = useState(user.id.toString());
+    const [statu, setStatu] = useState('');
     const handleMonthChange = useCallback((month: Date) => {
         setCurrentMonth(month);
     }, []);
@@ -110,84 +119,39 @@ const ScheduledTest: React.FC = () => {
         })
     }, [setProfessionals]);
 
-    const handlerSubmit = useCallback(async (data: testeProps) => {
-        const response = await api.post('/freeschedule/', data);
-        setSchedules(response.data);
-    }, []);
+    // const handlerSubmit = useCallback(async (data: testeProps) => {
+    //     const response = await api.post('/freeschedule/', data);
+    //     setSchedules(response.data);
+    // }, []);
 
-    // useEffect(() => {
-    //     api.post('/freeschedule/', handlerDates()).then((response: any) => {
-    //         setFreeschedule(response.data);
-    //     });
-    // }, [dates, professional]);
+    useEffect(() => {
+        api.post('/freeschedule/', handlerDates()).then((response: any) => {
+            setSchedules([]);
+            let { data } = response;
+            setSchedules(data);
+            //alert(data);
+        });
+    }, [dates, professional]);
 
-    // function handlerDates() {
-    //     const fd = new FormData()
-    //     fd.append("date", dates.format('DD/MM/YYYY'))
-    //     fd.append("professional", professional)
-    //     return fd;
-    // }
+    async function editStatus(id: string) {
+        await api.patch(`/appointment/${id}/`, teste());
+        addToast({
+            type: 'success',
+            title: 'Horário atualizado com sucesso!',
+        });
+    }
 
-    function retorna() {
+    function teste() {
+        const fd = new FormData()
+        fd.append("status", '159');
+        return fd;
+    }
 
-        return schedules.map((schedule) => {
-            let { appdate, apphour, professional, client, payments, procedure } = schedule
-            if (!professional) {
-                return (
-                    <tr key={professional}>
-                        <td>{appdate}</td>
-                        <td>{apphour}</td>
-                        <td>{client}</td>
-                        <td>{procedure}</td>
-                        {/* <td>{payments}</td> */}
-                        <td>
-                            <Button
-                                size="sm"
-                                variant="info"
-                                onClick={() => {
-                                    sessionStorage.setItem('appdate', appdate)
-                                    sessionStorage.setItem('apphour', apphour)
-                                    scheduleClient(schedule.id)
-                                }}
-                            >Editar
-                    </Button>{' '}
-                            <Button
-                                size="sm"
-                                variant="danger"
-                            >Remover
-                    </Button>
-                        </td>
-                    </tr>
-                )
-            }
-            return (
-                <tr key={professional.id}>
-                    <td>{appdate}</td>
-                    <td>{apphour}</td>
-                    <td>{client.first_name}</td>
-                    <td>{procedure.name}</td>
-                    {/* <td>{payments.name}</td> */}
-                    <td>
-                        <Button
-                            size="sm"
-                            variant="info"
-                            onClick={() => {
-                                sessionStorage.setItem('appdate', appdate)
-                                sessionStorage.setItem('apphour', apphour)
-                                scheduleClient(schedule.id)
-                            }}
-                        >Editar
-                    </Button>{' '}
-                        <Button
-                            size="sm"
-                            variant="danger"
-                        >Remover
-                    </Button>
-                    </td>
-                </tr>
-            )
-        })
-
+    function handlerDates() {
+        const fd = new FormData()
+        fd.append("date", dates.format('DD/MM/YYYY'))
+        fd.append("professional", professional)
+        return fd;
     }
 
     return (
@@ -197,22 +161,81 @@ const ScheduledTest: React.FC = () => {
 
                 <div className="container">
                     <div className="task-header">
-                        <h1>Agedamentos</h1>
+                        <h1>Agendamentos {dates.format('DD/MM/YYYY')}</h1>
                     </div>
                     <br />
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
-                                <th>Data</th>
+                                <th>Status</th>
                                 <th>Horario</th>
                                 <th>Cliente</th>
                                 <th>Procedimento</th>
+                                <th>Pagamento</th>
                                 <th>Opções</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tabela">
                             {
-                                retorna()
+                                (() => {
+                                    return schedules.map((schedule) => {
+                                        let { appdate, apphour, professional, client, payment, procedure, status } = schedule
+                                        console.log(appdate);
+                                        if (!professional) {
+                                            return (
+                                                <tr key={professional}>
+                                                    <td>{status}</td>
+                                                    <td>{apphour}</td>
+                                                    <td>{client}</td>
+                                                    <td>{procedure}</td>
+                                                    <td>{payment}</td>
+                                                    <td>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="info"
+                                                            onClick={() => {
+                                                                sessionStorage.setItem('appdate', appdate)
+                                                                sessionStorage.setItem('apphour', apphour)
+                                                                scheduleClient(schedule.id)
+                                                            }}
+                                                        >Editar
+                                            </Button>{' '}
+
+                                                    </td>
+                                                </tr>
+                                            )
+                                        }
+                                        return (
+                                            <tr key={professional.id}>
+                                                <td>{status.name}</td>
+                                                <td>{apphour}</td>
+                                                <td>{client.first_name}</td>
+                                                <td>{procedure.name}</td>
+                                                <td>{payment.name}</td>
+                                                <td>
+                                                    <Button
+                                                        size="sm"
+                                                        variant="info"
+                                                        onClick={() => {
+                                                            sessionStorage.setItem('appdate', appdate)
+                                                            sessionStorage.setItem('apphour', apphour)
+                                                            scheduleClient(schedule.id)
+                                                        }}
+                                                    >Editar
+                                            </Button>{' '}
+                                                    <Button
+                                                        size="sm"
+                                                        variant="success"
+                                                        onClick={() => {
+                                                            editStatus(schedule.id)
+                                                        }}
+                                                    >Atendido
+                                            </Button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                })()
                             }
                         </tbody>
 
@@ -225,7 +248,7 @@ const ScheduledTest: React.FC = () => {
                     </Links>
                 </div>
                 <Calendar>
-                    {/* <select name="professional" onChange={e => { setProfessional(e.target.value) }}>
+                    <select name="professional" onChange={e => { setProfessional(e.target.value) }} value={professional}>
                         <option value="">Selecione o profissional</option>
                         <option value={user.id.toString()}>{user.first_name}</option>
                         {professionals.map((professionals) => (
@@ -239,14 +262,14 @@ const ScheduledTest: React.FC = () => {
                         //id="begin"
                         value={dates}
                         onChange={(date: any) => setDates(date)}
-                    /> */}
-                    <Form onSubmit={handlerSubmit}>
+                    />
+                    {/* <Form onSubmit={handlerSubmit}>
                         <h3>Informe o profissional</h3>
                         <Input type="text" name="professional" placeholder="ID"/>
                         <Input type="text" name="date" placeholder="DD/MM/AAAA" mask="datas"/>
                         <Button type="submit">Pesquisar</Button>
-                    </Form>
-                </Calendar> 
+                    </Form> */}
+                </Calendar>
 
             </Content>
         </Container>
