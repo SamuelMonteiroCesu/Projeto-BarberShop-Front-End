@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { Container, Content, Days, Links } from './style';
 import { Link, useHistory, useParams } from 'react-router-dom';
-// import userEvent from '@testing-library/user-event';
-// import { Form } from '@unform/web';
-// import Input from '../../components/Input';
-// import { constrainPoint } from '@fullcalendar/react';
-// import { useAuth } from '../../hooks/auth';
 import moment from 'moment'
 import 'moment/locale/pt-br';
 
@@ -81,21 +76,20 @@ const ScheduleClient: React.FC = () => {
     useEffect(() => {
         api.get('/procedure/').then((response) => {
             setProcedures(response.data);
-            console.log('procedimento', response.data);
         })
     }, [setProcedures]);
 
     useEffect(() => {
         api.get('/getprof/').then((response) => {
             setProfessionals(response.data);
-            console.log('profissional', response.data);
+         
         })
     }, [setProfessionals]);
 
     useEffect(() => {
         api.get('/payment/').then((response) => {
             setPayments(response.data);
-            console.log('pagamento', response.data);
+       
         })
     }, [setPayments]);
 
@@ -151,15 +145,14 @@ const ScheduleClient: React.FC = () => {
                         <option key={professionals.id} value={professionals.id}>{professionals.first_name}</option>
                     ))}
                 </select>
-
-                <Days
-                    format="DD/MM/YYYY"
-                    //className="form-control"
-                    locale={locale}
-                    //id="begin"
-                    value={dates}
-                    onChange={(date: any) => setDates(date)}
-                />
+                    <Days
+                        format="DD/MM/YYYY"
+                        //className="form-control"
+                        locale={locale}
+                        //id="begin"
+                        value={dates}
+                        onChange={(date: any) => setDates(date)}
+                    />
 
                 <select name="apphour" onChange={e => { setApphour(e.target.value) }}>
                     <option value="">Selecione um horário</option>

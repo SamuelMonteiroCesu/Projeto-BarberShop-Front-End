@@ -78,14 +78,13 @@ const CadastroCliente: React.FC = () => {
         }
     }, [addToast, history] );
 
-    console.log('AQUI2', cliente);
     
     return(
         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h3>Cadastro de cliente</h3>
+                        <h1>Cadastro de cliente</h1>
                         <input type="hidden" name="is_staff" />
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
             

@@ -31,7 +31,7 @@ const CadastroStatus: React.FC = () => {
 
     useEffect(() => {
         if (status_id !== undefined) {
-            console.log(findStatus(status_id));
+            findStatus(status_id);
         }
 
     }, [status_id]);
@@ -39,7 +39,6 @@ const CadastroStatus: React.FC = () => {
     async function findStatus(status_id: string) {
         const response = await api.get(`status/${status_id}`);
         setModel(response.data);
-        console.log('função', response)
     }
 
     const handlerSubmit = useCallback(async (data: StatusProps) => {

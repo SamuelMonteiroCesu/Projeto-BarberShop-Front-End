@@ -5,7 +5,7 @@ import { BiUserCircle } from 'react-icons/bi'
 import { Container, Header, HeaderContent, Profile, Content, AnimationContainer } from './style';
 import { useAuth } from '../../hooks/auth';
 import { FiPower } from 'react-icons/fi';
-import { Links } from '../Status/style';
+
 const Dashboard: React.FC = () =>{
 
     const { logout, user } = useAuth();
@@ -51,16 +51,19 @@ const Dashboard: React.FC = () =>{
                     
                     Status
                 </Link>
-                <Link to="cadastro_funcionarios">
+                <Link to="funcionarios">
             
                     Funcionários
                 </Link>
-                <Link to="cadastro_cliente">
+                <Link to="clientes">
             
-                    Novo Cliente
+                    Clientes
                 </Link>
                 <Link to="agendados">
                     Agendamentos
+                </Link>
+                <Link to="horarios">
+                    Horários
                 </Link>
                 </AnimationContainer>
             </Content>

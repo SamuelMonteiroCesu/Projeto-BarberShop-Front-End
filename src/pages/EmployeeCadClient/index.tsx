@@ -33,9 +33,9 @@ const EmployeeCadClient: React.FC = () =>{
 
     useEffect(() =>{
         api.get('/client/').then((response) =>{
-            console.log('CLIENTES', response.data);
         })
     }, [])
+    
     const handlerSubmit = useCallback (async (data: EmployeeProps) => {
         try{
             formRef.current?.setErrors({});
@@ -52,7 +52,6 @@ const EmployeeCadClient: React.FC = () =>{
             await schema.validate(data, {
                 abortEarly: false,
             });
-            console.log(data);
             await api.post('/client/', data);
             addToast({
                 type: 'success',

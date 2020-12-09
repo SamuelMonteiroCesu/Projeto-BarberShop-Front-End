@@ -13,6 +13,8 @@ import ManagementPayment from '../pages/Payment/index';
 import ListPayment from '../pages/Payment/List';
 
 import ManagementEmployee from '../pages/Employee'
+import ListEmployee from '../pages/Employee/List'
+
 import Login from '../pages/Login';
 
 import CadastroCliente from '../pages/Client';
@@ -24,13 +26,17 @@ import DashboardClient from '../pages/Dashboard/Client';
 
 import ScheduledTest from '../pages/ScheduledTest'
 
-import  Profile  from '../pages/Profile';
+import Profile  from '../pages/Profile';
 import RecoveryPass from '../pages/RecoveryPassword';
 
 import ScheduleProfessional from '../pages/ScheduleProfessional';
 import ScheduleClient from '../pages/ScheduledClient';
 import HistoricClient from '../pages/HistoricClient';
 import EmployeeCadClient from '../pages/EmployeeCadClient';
+import ListClient from '../pages/EmployeeCadClient/List';
+import HorsSchedule from '../pages/HorsSchedule';
+
+
 const Routes: React.FC = () =>(
     <Switch>
         {/* CLIENT */}
@@ -44,7 +50,7 @@ const Routes: React.FC = () =>(
         {/* RECOVERY */}
 
         {/* Employee */}
-        <Route path="/funcionarios" exact component={ManagementEmployee} isEmployee/>
+        <Route path="/funcionarios" exact component={ListEmployee} isEmployee/>
         <Route path="/cadastro_funcionarios" exact component={ManagementEmployee} isEmployee/>
         {/* Employee */}
 
@@ -76,6 +82,10 @@ const Routes: React.FC = () =>(
          <Route path="/agendados" exact component={ScheduledTest} isEmployee/>
           {/* Agendamentos */}
 
+          {/* Define Horário de trabalho */}
+          <Route path="/horarios" exact component={HorsSchedule} isEmployee/>
+          {/* Define Horário de trabalho */}
+
           {/* Perfil */}
           <Route path="/perfil" exact component={Profile} isEmployee/>
           {/* Perfil */}
@@ -85,14 +95,20 @@ const Routes: React.FC = () =>(
           <Route path="/agendar_cliente/:id" exact component={ScheduleProfessional} isEmployee/>
            {/* Profissional agenda cliente */}
 
+           {/* Criar horários da agenda */}
+           <Route path="/agendar_cliente/" exact component={ScheduleProfessional} isEmployee/>
+           {/* Criar horários da agenda */}
+
             {/* Profissional cadastra cliente */}
             <Route path="/cadastro_cliente/" exact component={EmployeeCadClient} isEmployee/>
+            <Route path="/clientes/" exact component={ListClient} isEmployee/>
             {/* Profissional cadastra cliente */}
 
             {/* Cliente se agenda */}
            <Route path="/novo_agendamento/" exact component={ScheduleClient} isEmployee/>
            <Route path="/agendamentos/" exact component={HistoricClient} isEmployee/>
             {/* Cliente se agenda */}
+
     </Switch>
 );
 

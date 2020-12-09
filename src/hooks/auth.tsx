@@ -77,7 +77,7 @@ const AuthProvider: React.FC = ({children}) =>{
             api.defaults.headers.Authorization = `Bearer ${token}`
 
             const res = await api.get('/getuser/');
-            console.log(res.data);
+            
             const user = res.data;
             localStorage.setItem('@BarberShop:user', JSON.stringify(user));
             
@@ -86,18 +86,6 @@ const AuthProvider: React.FC = ({children}) =>{
         }).catch((e) =>{
             alert('Erro ao autenticar, verifique suas credenciais.');
         })
-        //console.log(response);
-        // const token = response.data.access;
-        // const refresh = response.data.refresh;
-        // localStorage.setItem('@BarberShop:token', token);
-        // localStorage.setItem('@BarberShop:refresh', refresh);
-        // api.defaults.headers.Authorization = `Bearer ${token}`
-
-        // const res = await api.get('/getuser/');
-        // console.log(res.data);
-        // const user = res.data;
-        // localStorage.setItem('@BarberShop:user', JSON.stringify(user));
-        // setData({ token, refresh, user});
     },[]);
 
     const logout = useCallback(() =>{

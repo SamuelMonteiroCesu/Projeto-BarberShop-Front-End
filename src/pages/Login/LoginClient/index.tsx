@@ -68,7 +68,7 @@ const LoginClient: React.FC = () => {
                         <h1>Login Cliente</h1>
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
-                        <Input type="password" placeholder="DD/MM/AAAA" name="password" mask="datas"/>
+                        <Input type="text" placeholder="DD/MM/AAAA" name="password" mask="datas"/>
 
                         <Button type="submit">Entrar</Button>
 

@@ -68,10 +68,8 @@ const HistoricClient: React.FC = () =>{
 
     const [model, setModel] = useState<SchedulesProps[]>([]);
 
-    // console.log(user.is_staff);
     useEffect(() => {
         api.get('/appointment/').then((response) => {
-            console.log(response.data)
             setModel(response.data);
         });
     }, []);
@@ -85,6 +83,7 @@ const HistoricClient: React.FC = () =>{
                     <td>{appdate}</td>
                     <td>{apphour}</td>
                     <td>{procedure.name}</td>
+                    <td>{professional.first_name}</td>
                     <td>{status.name}</td>
                     {/* <td>{payments.name}</td> */}
                 </tr>
@@ -112,6 +111,7 @@ const HistoricClient: React.FC = () =>{
                         <th>Data</th>
                         <th>Horário</th>
                         <th>Procedimento</th>
+                        <th>Profissional</th>
                         <th>Status</th>
                     </tr>
                     </thead>

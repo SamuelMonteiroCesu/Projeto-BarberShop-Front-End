@@ -6,7 +6,6 @@ import Button from 'react-bootstrap/esm/Button';
 import './style.css';
 import { Links, Lists } from '../style';
 import { useToast } from '../../../hooks/toast';
-import { info } from 'console';
 import { FiArrowLeft } from 'react-icons/fi';
 
 interface StatusProps{
@@ -26,7 +25,7 @@ const ManageStatus: React.FC = () =>{
 
     async function loadStatus() {
         const response = await api.get('/status/')
-        //console.log('esse', response)
+      
         setStatus(response.data)
     }
 

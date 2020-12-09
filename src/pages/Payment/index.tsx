@@ -24,16 +24,16 @@ const ManagementPayment: React.FC = () => {
     const history = useHistory();
     const { payment_id }:any = useParams();
     const [ payments, setPayments] = useState<PaymentProps>();
+
     useEffect(() =>{
         if(payment_id !== undefined){
-            console.log(findPayment(payment_id));
+            findPayment(payment_id);
         }     
     }, [payment_id]);
     
     async function findPayment(payment_id: string){
         const response = await api.get(`payment/${payment_id}`);
         setPayments(response.data);
-        console.log('função', response)
     }
 
     const handlerSubmit = useCallback (async (data: PaymentProps) => {
@@ -46,7 +46,6 @@ const ManagementPayment: React.FC = () => {
             await schema.validate(data, {
                 abortEarly: false,
             });
-            console.log(data);
             if(payment_id !== undefined){
                 await api.patch(`/payment/${payment_id}/`, data);
                 addToast({

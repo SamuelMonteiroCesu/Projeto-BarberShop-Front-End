@@ -17,17 +17,12 @@ export const Content = styled.div`
         color: #FFFFFF
     }
     input{
-        margin: 4px 0 16px;
         width: 340px;
         text-align: left;
         background: #F0F4F4;
         border-radius: 10px;
-        border: 2px solid #939393;
         padding: 12px;
         color: #939393;
-
-        display: flex;
-        align-items: center;
     }
     select{
         margin: 4px 0 16px;
@@ -97,6 +92,7 @@ export const Links = styled.div`
     }
     
 `;
+
 
 export const Days = styled(DatePicker)`
 

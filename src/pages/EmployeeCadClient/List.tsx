@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/esm/Button';
 import { useToast } from '../../hooks/toast';
 import { FiArrowLeft } from 'react-icons/fi';
 
-interface EmployeeProps{
+interface clientProps{
     id: string,
     first_name: string,
     last_name: string,
@@ -17,24 +17,27 @@ interface EmployeeProps{
 }
 
 
-const ListEmployee: React.FC = () =>{
+const ListClient: React.FC = () =>{
 
-    const [employees, setEmployees ] = useState<EmployeeProps[]>([]);
+    const [client, setClient ] = useState<clientProps[]>([]);
     const history = useHistory(); 
     const { addToast } = useToast();
     
     useEffect(() =>{
+        api.get('/client').then((response) =>{
+            console.log('profissionais', response.data);
+        })
         loadEmployee()
     },[])
 
     async function loadEmployee() {
-        const response = await api.get('/getprof')
+        const response = await api.get('/client')
         //console.log('esse', response)
-        setEmployees(response.data)
+        setClient(response.data)
     }
 
     function newEmployee(){
-        history.push('cadastro_funcionarios');
+        history.push('cadastro_cliente');
     }
 
     // function editEmployee(id: string){
@@ -57,8 +60,8 @@ const ListEmployee: React.FC = () =>{
             <br/>
             <div className="container">
                 <div className="task-header">
-                    <h1>Profissionais</h1>
-                    <Button variant="success" size="sm" onClick={newEmployee}>Novo profissional</Button>
+                    <h1>Clientes</h1>
+                    <Button variant="success" size="sm" onClick={newEmployee}>Novo cliente</Button>
                 </div>
                 <br/>
                 <Table striped bordered hover variant="dark">
@@ -72,12 +75,12 @@ const ListEmployee: React.FC = () =>{
                     </thead>
                     <tbody>
                     {
-                    employees.map((employee)=>(
-                        <tr key={employee.id}>
-                            <td>{employee.id}</td>
-                            <td>{employee.first_name}</td>
-                            <td>{employee.email}</td>
-                            <td>{employee.last_name}</td>
+                    client.map((client)=>(
+                        <tr key={client.id}>
+                            <td>{client.id}</td>
+                            <td>{client.first_name}</td>
+                            <td>{client.email}</td>
+                            <td>{client.last_name}</td>
                         </tr>
                     ))}
                     </tbody> 
@@ -93,4 +96,4 @@ const ListEmployee: React.FC = () =>{
     );
 };
 
-export default ListEmployee;
+export default ListClient;

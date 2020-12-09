@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Table from 'react-bootstrap/esm/Table';
 import api from '../../services/api';
 import { useHistory, Link } from 'react-router-dom';
 import Button from 'react-bootstrap/esm/Button';
 import { Links, Calendar, Content, Container, Days } from './style';
 import { useToast } from '../../hooks/toast';
-//import { info } from 'console';
 import { FiArrowLeft } from 'react-icons/fi';
-//import DayPicker, { DayModifiers, Modifier } from 'react-day-picker';
+
 import 'react-day-picker/lib/style.css';
 import { useAuth } from '../../hooks/auth';
-// import { isImportOrExportSpecifier } from 'typescript';
-// import { isToday, format} from 'date-fns';
-// import ptBR from 'date-fns/locale/pt-BR';
-// import { object } from 'yup';
-import { Form } from '@unform/web';
-import Input from '../../components/Input';
 import moment from 'moment'
 import 'moment/locale/pt-br';
 import 'antd/dist/antd.css';
 import locale from 'antd/es/date-picker/locale/pt_BR'
-import { array } from 'yup';
+
 
 interface profeProps {
     id: number,
@@ -108,21 +101,16 @@ const ScheduledTest: React.FC = () => {
 
     useEffect(() => {
         api.get('/appointment/').then((response) => {
-            // console.log(response.data);
+           
         })
     }, []);
 
     useEffect(() => {
         api.get('/getprof/').then((response) => {
             setProfessionals(response.data);
-            console.log('profissional', response.data);
+           
         })
     }, [setProfessionals]);
-
-    // const handlerSubmit = useCallback(async (data: testeProps) => {
-    //     const response = await api.post('/freeschedule/', data);
-    //     setSchedules(response.data);
-    // }, []);
 
     useEffect(() => {
         api.post('/freeschedule/', handlerDates()).then((response: any) => {
@@ -180,7 +168,7 @@ const ScheduledTest: React.FC = () => {
                                 (() => {
                                     return schedules.map((schedule) => {
                                         let { appdate, apphour, professional, client, payment, procedure, status } = schedule
-                                        console.log(appdate);
+                                       
                                         if (!professional) {
                                             return (
                                                 <tr key={professional}>
@@ -263,12 +251,7 @@ const ScheduledTest: React.FC = () => {
                         value={dates}
                         onChange={(date: any) => setDates(date)}
                     />
-                    {/* <Form onSubmit={handlerSubmit}>
-                        <h3>Informe o profissional</h3>
-                        <Input type="text" name="professional" placeholder="ID"/>
-                        <Input type="text" name="date" placeholder="DD/MM/AAAA" mask="datas"/>
-                        <Button type="submit">Pesquisar</Button>
-                    </Form> */}
+                   
                 </Calendar>
 
             </Content>

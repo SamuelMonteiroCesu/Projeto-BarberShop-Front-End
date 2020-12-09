@@ -69,7 +69,7 @@ const ScheduleProfessional: React.FC = () =>{
     useEffect(() =>{
         api.get('/status/').then((response) =>{
             setStatus(response.data);
-            //console.log('status', recebe);
+       
         })
     }, [setStatus])
 
@@ -78,28 +78,28 @@ const ScheduleProfessional: React.FC = () =>{
     useEffect(() =>{
         api.get('/procedure/').then((response) =>{
             setProcedures(response.data);
-            //console.log('procedimento', response.data);
+          
         })
         }, [setProcedures]);
 
     useEffect(() =>{
         api.get('/client/').then((response)=>{
                 setClients(response.data);
-                //console.log('cliente', response.data)
+                
         })
     }, [setClients])
 
     useEffect(() =>{
         api.get('/getprof/').then((response) =>{
             setProfessionals(response.data);
-            //console.log('profissional', response.data);
+            
         })
     }, [setProfessionals]);
 
     useEffect(() =>{
         api.get('/payment/').then((response)=>{
             setPayments(response.data);
-            // console.log('pagamento', response.data);
+            
         })
     }, [setPayments]);
 
@@ -117,10 +117,9 @@ const ScheduleProfessional: React.FC = () =>{
             addToast({
                 type: 'success',
                 title: 'Cliente agendado com sucesso!',
-            });
-            history.push('')
+            }); 
         }   
-        
+        history.push('/agendados/')
     }
 
 

@@ -102,3 +102,11 @@ export const Links = styled.div`
     }
     
 `;
+
+export const Lists = styled.div`
+    h1{ 
+        font-size: 28px;
+        margin-bottom: 24px;
+        color: #FFFFFF;
+    }
+`;

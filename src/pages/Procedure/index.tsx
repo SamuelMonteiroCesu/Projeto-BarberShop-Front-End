@@ -29,7 +29,7 @@ const CadastroProcedimento: React.FC = () =>{
 
     useEffect(() =>{
         if(procedure_id !== undefined){
-            console.log(findProcedure(procedure_id));
+            findProcedure(procedure_id);
         }     
     }, [procedure_id]);
     

@@ -25,6 +25,14 @@ export const Content = styled.div`
     border-radius: 10px;
 `;
 
+export const Lists = styled.div`
+    h1{ 
+        font-size: 28px;
+        margin-bottom: 24px;
+        color: #FFFFFF;
+    }
+`;
+
 const apparFromLeft = keyframes `
     from{
         opacity: 0;
@@ -50,16 +58,15 @@ export const AnimationContainer = styled.div`
         text-align: center;
     }
 
-    h1{
-        margin-bottom: 24px;
+    h1{ 
         font-size: 28px;
+        margin-bottom: 24px;
         color: #FFFFFF;
     }
 
     a{
         color: #FFFFFF;
         display: block;
-        margin-top: 16px;
         text-decoration: none;
         transition: color 0.2s;
 
@@ -75,9 +82,3 @@ export const AnimationContainer = styled.div`
         }
     }
 `;
-
-// export const Background = styled.div`
-//     flex: 1;
-//     background: url(${LoginBackground}) no-repeat center;
-//     background-size: cover;
-// `;

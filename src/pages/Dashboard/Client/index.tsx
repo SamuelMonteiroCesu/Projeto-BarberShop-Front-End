@@ -21,9 +21,7 @@ const DashboardClient: React.FC = () => {
                         <BiUserCircle />
                         <div>
                             <span>Bem-vindo,</span>
-                            <Link to="/perfil">
                                 <strong>{user.first_name}</strong>
-                            </Link>
                         </div>
                     </Profile>
                     <button type="button" onClick={logout}>
@@ -33,11 +31,11 @@ const DashboardClient: React.FC = () => {
             </Header>
             <Content>
                 <AnimationContainer>
-                    <Link to="novo_agendamento">
+                <Link to="novo_agendamento">
 
                         Novo Agendamento
                 </Link>
-                    <Link to="agendamentos">
+                <Link to="agendamentos">
 
                         Agendamentos
                 </Link>
