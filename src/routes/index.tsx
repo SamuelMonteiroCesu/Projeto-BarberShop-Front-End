@@ -30,6 +30,7 @@ import RecoveryPass from '../pages/RecoveryPassword';
 import ScheduleProfessional from '../pages/ScheduleProfessional';
 import ScheduleClient from '../pages/ScheduledClient';
 import HistoricClient from '../pages/HistoricClient';
+import EmployeeCadClient from '../pages/EmployeeCadClient';
 const Routes: React.FC = () =>(
     <Switch>
         {/* CLIENT */}
@@ -83,6 +84,10 @@ const Routes: React.FC = () =>(
           <Route path="/agendar_cliente/" exact component={ScheduleProfessional} isEmployee/>
           <Route path="/agendar_cliente/:id" exact component={ScheduleProfessional} isEmployee/>
            {/* Profissional agenda cliente */}
+
+            {/* Profissional cadastra cliente */}
+            <Route path="/cadastro_cliente/" exact component={EmployeeCadClient} isEmployee/>
+            {/* Profissional cadastra cliente */}
 
             {/* Cliente se agenda */}
            <Route path="/novo_agendamento/" exact component={ScheduleClient} isEmployee/>

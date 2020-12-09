@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { Container, Content } from './style';
-import { Link, useHistory, useParams} from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
-import { Form } from '@unform/web';
-import Input from '../../components/Input';
-import { constrainPoint } from '@fullcalendar/react';
+import { Link, useParams, useHistory} from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
+import {useToast} from '../../hooks/toast';
+// import userEvent from '@testing-library/user-event';
+// import { Form } from '@unform/web';
+// import Input from '../../components/Input';
+// import { constrainPoint } from '@fullcalendar/react';
 
 interface statusProps{
     status_id: string,
@@ -36,18 +38,20 @@ interface paymentProps{
 interface newScheduleProps{
     appdate: string,
     apphour: string,
-    client: string,
-    professional: string,
-    status: string
-    procedure: string,
-    payment: string,
+    client: clientProps,
+    professional: professionalProps,
+    status: statusProps,
+    procedure: procedureProps,
+    payment: paymentProps,
+    active: boolean,
 }
 
 
 const ScheduleProfessional: React.FC = () =>{
 
+    const history = useHistory();
     const { id }: any = useParams();
-
+    const { addToast } = useToast();
     const [status, setStatus] = useState<statusProps[]>([]);
     const [procedures, setProcedures] = useState<procedureProps[]>([]);
     const [clients, setClients] = useState<clientProps[]>([]);
@@ -65,14 +69,16 @@ const ScheduleProfessional: React.FC = () =>{
     useEffect(() =>{
         api.get('/status/').then((response) =>{
             setStatus(response.data);
-            console.log('status', response.data);
+            //console.log('status', recebe);
         })
     }, [setStatus])
+
+    
 
     useEffect(() =>{
         api.get('/procedure/').then((response) =>{
             setProcedures(response.data);
-            console.log('procedimento', response.data);
+            //console.log('procedimento', response.data);
         })
         }, [setProcedures]);
 
@@ -86,7 +92,7 @@ const ScheduleProfessional: React.FC = () =>{
     useEffect(() =>{
         api.get('/getprof/').then((response) =>{
             setProfessionals(response.data);
-            console.log('profissional', response.data);
+            //console.log('profissional', response.data);
         })
     }, [setProfessionals]);
 
@@ -97,12 +103,23 @@ const ScheduleProfessional: React.FC = () =>{
         })
     }, [setPayments]);
 
-    // const handlerSubmit = useCallback (async () => {
-
     async function handlerSubmit(){
-        const data = handlerSchedule()
-        alert(data.toString());
-        await api.post('/appointment/', handlerSchedule());
+        // const data = handlerSchedule()
+        // alert(data.toString());
+        if(id  !== undefined){
+            await api.patch(`/appointment/${id}/`, handlerSchedule());
+            addToast({
+                type: 'success',
+                title: 'Agendamento atualizado com sucesso!',
+            });
+        }else{
+            await api.post('/appointment/', handlerSchedule());
+            addToast({
+                type: 'success',
+                title: 'Cliente agendado com sucesso!',
+            });
+            history.push('')
+        }
         
     }
 
@@ -117,76 +134,80 @@ const ScheduleProfessional: React.FC = () =>{
         fd.append("professional", professional)
         fd.append("payment", payment)
         return fd;
-        // return {
-        //     appdate,
-        //     apphour,
-        //     status:statu,
-        //     procedure,
-        //     client,
-        //     professional,
-        //     payment,
-        // }
     }
    
-    useEffect(() =>{
-        if(id === null){
-            setAppdate(sessionStorage.getItem('appdate') || 'aleatorio');
+    useEffect(() => {
+        if (!id) {
+            setAppdate(sessionStorage.getItem('appdate') || '');
             setApphour(sessionStorage.getItem('apphour') || '');
         }else{
-            api.get(`/appointment/${id}/`).then((response) =>{
-            
-                alert(JSON.stringify(response.data));
+            api.get(`/appointment/${id}/`).then((response) => {
+                setAppdate(sessionStorage.getItem('appdate') || '');
+                setApphour(sessionStorage.getItem('apphour') || '');
+                //alert(JSON.stringify(response.data));
             })
         }
-        //sessionStorage.clear();
     }, ['loading'])
 
+    function carrega(){
 
+    }
     return(
         <Container>
             <Content>
-                <h1>OLA</h1>
-                {/* <form> */}
-                    <input type="text" value={appdate} onChange={e => {setAppdate(e.target.value)}} name="appdate" placeholder="DD/MM/AAAA" />
-                    <input type="text" value={apphour} onChange={e => {setApphour(e.target.value)}} name="apphour" placeholder="HORA" />
-                    {/* <Input type="text" name="status" placeholder="status"/>
-                    <Input type="text" name="procedure" placeholder="procedure"/>
-                    <Input type="text" name="client" placeholder="client"/>
-                    <Input type="text" name="professional" placeholder="professional"/>
-                    <Input type="text" name="payment" placeholder="pagamento"/> */}
-
+                <h1>Agende um cliente</h1>
+                    <input 
+                        type="text" 
+                        value={appdate} 
+                        onChange={e => {setAppdate(e.target.value)}} 
+                        name="appdate" placeholder="DD/MM/AAAA" />
+                    <input 
+                        type="text" 
+                        value={apphour} 
+                        onChange={e => {setApphour(e.target.value)}} 
+                        name="apphour" 
+                        placeholder="HORA" />
+                    
                     <select name="status" onChange={e => {setStatu(e.target.value)}}>
+                    <option>Selecione um status</option>
                     {status.map((status) =>(
                             <option key={status.status_id} value={status.status_id}>{status.name}</option>
                     ))}
                     </select>
 
                     <select name="procedure" onChange={e => {setProcedure(e.target.value)}}>
+                        <option value="">Selecione um procedimento</option>
                         {procedures.map((procedures) =>(
                             <option key={procedures.procedure_id} value={procedures.procedure_id}>{procedures.name}</option>
                         ))}
                     </select>
 
                     <select name="client" onChange={e => {setClient(e.target.value)}}>
+                        <option value="">Selecione um cliente</option>
                         {clients.map((clients) =>(
                             <option key={clients.id} value={clients.id}>{clients.first_name}</option>
                         ))}
                     </select>
 
                     <select name="professional" onChange={e => {setProfessional(e.target.value)}}>
+                        <option value="">Selecione um profissional</option>
                         {professionals.map((professionals) =>(
                             <option key={professionals.id} value={professionals.id}>{professionals.first_name}</option>
                         ))}
                     </select>
 
                     <select name="payment"  onChange={e => {setPayment(e.target.value)}}>
+                        <option value="">Forma de pagamento</option>
                         {payments.map((payments) =>(
                             <option key={payments.payment_id} value={payments.payment_id}>{payments.name}</option>
                         ))}
                     </select> 
 
                     <button onClick={e => (handlerSubmit())} type="submit">Enviar</button>
-                {/* </form> */}
+                    <Link to="/agendados/">
+                        <FiArrowLeft/>
+                        Voltar
+                    </Link>
             </Content>
         </Container>
     )

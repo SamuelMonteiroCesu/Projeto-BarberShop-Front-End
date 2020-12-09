@@ -7,7 +7,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #5D6D7E;
-    padding: 0 0 352px;
+    padding: 0 0 298px 0;
     place-content: center;
     
     width: 100%;

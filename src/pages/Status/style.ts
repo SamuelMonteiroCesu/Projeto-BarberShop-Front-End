@@ -25,6 +25,13 @@ export const Content = styled.div`
     border-radius: 10px;
 `;
 
+export const Lists = styled.div`
+    h1{ 
+        font-size: 28px;
+        margin-bottom: 24px;
+        color: #FFFFFF;
+    }
+`;
 
 const apparFromLeft = keyframes `
     from{
@@ -51,8 +58,10 @@ export const AnimationContainer = styled.div`
         text-align: center;
     }
 
-    h1{
+    h1{ 
+        font-size: 28px;
         margin-bottom: 24px;
+        color: #FFFFFF;
     }
 
     a{

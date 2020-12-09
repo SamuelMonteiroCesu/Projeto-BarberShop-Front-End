@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { Links } from './style';
+import { Links, Lists } from './style';
 //import Button from '../../components/Button';
 import { Link, useHistory } from 'react-router-dom';
 import Table from 'react-bootstrap/esm/Table';
@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/esm/Button';
 import { useToast } from '../../hooks/toast';
 import { FiArrowLeft } from 'react-icons/fi';
 
-interface ProceduresProps{
+interface ProceduresProps {
     procedure_id: string,
     name: string,
     price: string,
@@ -17,12 +17,12 @@ interface ProceduresProps{
 }
 
 
-const ListProcedure: React.FC = () =>{
+const ListProcedure: React.FC = () => {
 
     const [procedures, setProcedure] = useState<ProceduresProps[]>([]);
-    const history = useHistory(); 
+    const history = useHistory();
     const { addToast } = useToast();
-    useEffect(() =>{
+    useEffect(() => {
         loadProcedure();
     }, []);
 
@@ -32,15 +32,15 @@ const ListProcedure: React.FC = () =>{
         setProcedure(response.data)
     }
 
-    function newProcedure(){
+    function newProcedure() {
         history.push('cadastro_procedimento');
     }
 
-    function editProcedure(procedure_id: string){
+    function editProcedure(procedure_id: string) {
         history.push(`/cadastro_procedimento/${procedure_id}`);
     }
 
-    async function deleteProcedure(procedure_id: string){
+    async function deleteProcedure(procedure_id: string) {
         await api.delete(`/procedure/${procedure_id}`);
         addToast({
             type: 'info',
@@ -49,57 +49,58 @@ const ListProcedure: React.FC = () =>{
         loadProcedure();
     }
 
-    return(
-        <div>
-            <br/>
-            <br/>
-            <br/>
+    return (
+        <Lists>
+            <br />
+            <br />
+            <br />
+
             <div className="container">
                 <div className="task-header">
                     <h1>Procedimentos</h1>
                     <Button variant="success" size="sm" onClick={newProcedure}>Novo Procedimento</Button>
                 </div>
-                <br/>
+                <br />
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
-                        <th>Procedimento</th>
-                        <th>Tempo estimado</th>
-                        <th>Preço</th>
-                        <th>Opções</th>
+                            <th>Procedimento</th>
+                            <th>Tempo estimado</th>
+                            <th>Preço</th>
+                            <th>Opções</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {
-                    procedures.map((procedure)=>(
-                        <tr key={procedure.procedure_id}>
-                            <td>{procedure.name}</td>
-                            <td>{procedure.time}</td>
-                            <td>{procedure.price}</td>
-                            <td>
-                                <Button 
-                                    size="sm" 
-                                    variant="info" 
-                                    onClick={() =>editProcedure(procedure.procedure_id)}>Editar
+                        {
+                            procedures.map((procedure) => (
+                                <tr key={procedure.procedure_id}>
+                                    <td>{procedure.name}</td>
+                                    <td>{procedure.time}</td>
+                                    <td>{procedure.price}</td>
+                                    <td>
+                                        <Button
+                                            size="sm"
+                                            variant="info"
+                                            onClick={() => editProcedure(procedure.procedure_id)}>Editar
                                 </Button>{' '}
-                                <Button 
-                                    size="sm" 
-                                    variant="danger" 
-                                    onClick={() => deleteProcedure(procedure.procedure_id)}>Remover
+                                        <Button
+                                            size="sm"
+                                            variant="danger"
+                                            onClick={() => deleteProcedure(procedure.procedure_id)}>Remover
                                 </Button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody> 
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
                 </Table>
                 <Links>
                     <Link to="/dashboard">
-                    <FiArrowLeft/>
+                        <FiArrowLeft />
                         Voltar
                     </Link>
                 </Links>
             </div>
-        </div>
+        </Lists>
     );
 };
 

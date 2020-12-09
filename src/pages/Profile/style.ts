@@ -29,6 +29,15 @@ export const Container = styled.div`
         }
     }
 
+    button{
+        background: #5D6D7E;
+
+        &:hover{
+            background: ${shade(0.2, '#5D6D7E')};
+        }
+    }
+
+
 `;
 
 export const Content = styled.div`
@@ -60,9 +69,14 @@ export const Passwords = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-
+    
+    h1{
+        margin-top: 16px;
+        font-size: 18px;
+        color: #FFFFFF;
+    }
     form{
-        margin: 80px 0 16px;
+        margin: 15px 0 16px;
         width: 340px;
         text-align: center;
     }

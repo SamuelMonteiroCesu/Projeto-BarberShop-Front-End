@@ -17,6 +17,7 @@ import { useToast} from '../../../hooks/toast'
 
 //import api from '../../services/api';
 import { FiLogIn} from 'react-icons/fi';
+import { useAuth } from '../../../hooks/auth';
 
 interface LoginFormData{
     username: string,
@@ -26,14 +27,14 @@ interface LoginFormData{
 const LoginClient: React.FC = () => {
     
     const formRef = useRef<FormHandles>(null);
-
+    const { login } = useAuth();
     const { addToast } = useToast();
 
     const handlerSubmit = useCallback (async (data: LoginFormData) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
-                username: Yup.string().required('Digite seu e-mail.'),
+                username: Yup.string().required('Digite seu CPF.'),
                 password: Yup.string().min(6, 'Senha inválida.'),
                 
             });
@@ -41,11 +42,10 @@ const LoginClient: React.FC = () => {
             await schema.validate(data, {
                 abortEarly: false,
             });
-            console.log(data);
-            // await validateLogin({
-            //     username: data.username,
-            //     password: data.password,
-            // });
+            login({
+                username: data.username,
+                password: data.password,
+            });
         }catch(err){
         if(err instanceof Yup.ValidationError){
             const errors = getValidationErrors(err);
@@ -59,16 +59,16 @@ const LoginClient: React.FC = () => {
             description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
         });
         }
-    }, [, addToast] );
+    }, [ addToast] );
     return(
         <Container>
             <Content>
                 <AnimationContainer>
                     <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h3>Login Cliente</h3>
+                        <h1>Login Cliente</h1>
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
                 
-                        <Input type="text" placeholder="DD/MM/AA " name="password" mask="datas"/>
+                        <Input type="password" placeholder="DD/MM/AAAA" name="password" mask="datas"/>
 
                         <Button type="submit">Entrar</Button>
 

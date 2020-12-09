@@ -22,7 +22,7 @@ const ManagementPayment: React.FC = () => {
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
-    const { payment_id } = useParams();
+    const { payment_id }:any = useParams();
     const [ payments, setPayments] = useState<PaymentProps>();
     useEffect(() =>{
         if(payment_id !== undefined){
@@ -48,7 +48,7 @@ const ManagementPayment: React.FC = () => {
             });
             console.log(data);
             if(payment_id !== undefined){
-                await api.put(`/payment/${payment_id}/`, data);
+                await api.patch(`/payment/${payment_id}/`, data);
                 addToast({
                     type: 'success',
                     title: 'Forma de pagamento atualizado!',
@@ -91,7 +91,7 @@ const ManagementPayment: React.FC = () => {
                 tax: payments?.tax,
                 }}
             >
-                <h3>Cadastro de Formas de pagamentos</h3>
+                <h1>Cadastro de Formas de pagamentos</h1>
                     <Input type="text" placeholder="Forma" name="name"/>
             
                     <Input type="text" placeholder="Desconto" name="discount" mask="currency"/>

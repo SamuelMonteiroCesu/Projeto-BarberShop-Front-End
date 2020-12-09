@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { BiLogOutCircle, BiUserCircle } from 'react-icons/bi'
+import { BiUserCircle } from 'react-icons/bi'
 
 import { Container, Header, HeaderContent, Profile, Content, AnimationContainer } from './style';
 import { useAuth } from '../../hooks/auth';
@@ -55,12 +55,9 @@ const Dashboard: React.FC = () =>{
             
                     Funcionários
                 </Link>
-                {/* <button type="button" onClick={logout}>
-                    <BiLogOutCircle/>
-                    Sair
-                </button> */}
-                <Link to="agendar_cliente">  
-                    Teste
+                <Link to="cadastro_cliente">
+            
+                    Novo Cliente
                 </Link>
                 <Link to="agendados">
                     Agendamentos

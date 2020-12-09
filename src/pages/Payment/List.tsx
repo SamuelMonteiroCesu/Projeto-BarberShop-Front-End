@@ -7,8 +7,9 @@ import Table from 'react-bootstrap/esm/Table';
 import Button from 'react-bootstrap/esm/Button';
 import { useToast } from '../../hooks/toast';
 import { FiArrowLeft } from 'react-icons/fi';
+import { Lists } from '../Procedure/style';
 
-interface ProceduresProps{
+interface ProceduresProps {
     payment_id: string,
     name: string,
     discount: string,
@@ -16,13 +17,13 @@ interface ProceduresProps{
 }
 
 
-const ListPayment: React.FC = () =>{
+const ListPayment: React.FC = () => {
 
     const [payments, setPayments] = useState<ProceduresProps[]>([]);
-    const history = useHistory(); 
+    const history = useHistory();
     const { addToast } = useToast();
 
-    useEffect(() =>{
+    useEffect(() => {
         loadPayment();
     }, []);
 
@@ -31,15 +32,15 @@ const ListPayment: React.FC = () =>{
         setPayments(response.data)
     }
 
-    function newPayment(){
+    function newPayment() {
         history.push('cadastro_pagamento');
     }
 
-    function editPayment(payment_id: string){
+    function editPayment(payment_id: string) {
         history.push(`/cadastro_pagamento/${payment_id}`);
     }
 
-    async function deleteProcedure(payment_id: string){
+    async function deleteProcedure(payment_id: string) {
         await api.delete(`/payment/${payment_id}`);
         addToast({
             type: 'info',
@@ -48,56 +49,58 @@ const ListPayment: React.FC = () =>{
         loadPayment();
     }
 
-    return(
+    return (
         <div>
-            <br/>
-            <br/>
-            <br/>
-            <div className="container">
-                <div className="task-header">
-                    <h1>Formas de pagamento</h1>
-                    <Button variant="success" size="sm" onClick={newPayment}>Novo Pagamento</Button>
-                </div>
-                <br/>
-                <Table striped bordered hover variant="dark">
-                    <thead>
-                        <tr>
-                        <th>Forma</th>
-                        <th>Desconto</th>
-                        <th>Taxa</th>
-                        <th>Opções</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                    payments.map((payment)=>(
-                        <tr key={payment.payment_id}>
-                            <td>{payment.name}</td>
-                            <td>{payment.discount}</td>
-                            <td>{payment.tax}</td>
-                            <td>
-                                <Button 
-                                    size="sm" 
-                                    variant="info" 
-                                    onClick={() =>editPayment(payment.payment_id)}>Editar
+            <br />
+            <br />
+            <br />
+            <Lists>
+                <div className="container">
+                    <div className="task-header">
+                        <h1>Formas de pagamento</h1>
+                        <Button variant="success" size="sm" onClick={newPayment}>Novo Pagamento</Button>
+                    </div>
+                    <br />
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Forma</th>
+                                <th>Desconto</th>
+                                <th>Taxa</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                payments.map((payment) => (
+                                    <tr key={payment.payment_id}>
+                                        <td>{payment.name}</td>
+                                        <td>{payment.discount}</td>
+                                        <td>{payment.tax}</td>
+                                        <td>
+                                            <Button
+                                                size="sm"
+                                                variant="info"
+                                                onClick={() => editPayment(payment.payment_id)}>Editar
                                 </Button>{' '}
-                                <Button 
-                                    size="sm" 
-                                    variant="danger" 
-                                    onClick={() => deleteProcedure(payment.payment_id)}>Remover
+                                            <Button
+                                                size="sm"
+                                                variant="danger"
+                                                onClick={() => deleteProcedure(payment.payment_id)}>Remover
                                 </Button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody> 
-                </Table> 
-                <Links>
-                    <Link to="/dashboard">
-                    <FiArrowLeft/>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </Table>
+                    <Links>
+                        <Link to="/dashboard">
+                            <FiArrowLeft />
                         Voltar
                     </Link>
-                </Links>      
-            </div>
+                    </Links>
+                </div>
+            </Lists>
         </div>
     );
 };

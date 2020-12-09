@@ -7,7 +7,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #5D6D7E;
-    padding: 0 0 352px;
+    padding: 0 0 460px;
     place-content: center;
     
     width: 100%;
@@ -127,5 +127,9 @@ export const Profile = styled.div`
             }
         }
     }
+
+`;
+
+export const Schedule = styled.div`
 
 `;

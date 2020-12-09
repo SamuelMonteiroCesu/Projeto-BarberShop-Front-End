@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, Component, useEffect, useState } from 'react';
-import * as Yup from 'yup'; 
+import * as Yup from 'yup';
 import { Container, Content, AnimationContainer } from './style';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -7,43 +7,43 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams, Redirect } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
-import {} from '../../hooks/auth';
+import { useAuth } from '../../hooks/auth';
 import { datas } from '../../components/Input/style';
 import { FiArrowLeft } from 'react-icons/fi';
 
-interface StatusProps{
+interface StatusProps {
     //status_id: number,
     name: string,
     active: string,
 }
 
-const CadastroStatus: React.FC = () =>{
+const CadastroStatus: React.FC = () => {
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
-    const { status_id } = useParams();
-    //const params = useParams();
+    const { status_id }: any = useParams();
+    const { user } = useAuth();
 
     const [model, setModel] = useState<StatusProps>();
 
-    
-    useEffect(() =>{
-        if(status_id !== undefined){
+
+    useEffect(() => {
+        if (status_id !== undefined) {
             console.log(findStatus(status_id));
         }
-        
+
     }, [status_id]);
-    
-    async function findStatus(status_id: string){
+
+    async function findStatus(status_id: string) {
         const response = await api.get(`status/${status_id}`);
         setModel(response.data);
         console.log('função', response)
     }
 
-    const handlerSubmit = useCallback (async (data: StatusProps) => {
-        try{
+    const handlerSubmit = useCallback(async (data: StatusProps) => {
+        try {
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
 
@@ -53,26 +53,26 @@ const CadastroStatus: React.FC = () =>{
             await schema.validate(data, {
                 abortEarly: false,
             });
-            if(status_id !== undefined){
-                await api.put(`/status/${status_id}/`, data);
+            if (status_id !== undefined) {
+                await api.patch(`/status/${status_id}/`, data);
                 addToast({
                     type: 'success',
                     title: 'Status atualizado!',
                 });
-            }else{
+            } else {
                 await api.post('/status/', data);
                 addToast({
                     type: 'success',
                     title: 'Novo Status cadastrado!',
                 });
-           }
+            }
             history.push('/status');
 
 
-        }catch(err){
-            if(err instanceof Yup.ValidationError){
+        } catch (err) {
+            if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err);
-                formRef.current?.setErrors( errors );
+                formRef.current?.setErrors(errors);
 
                 return;
             }
@@ -82,27 +82,29 @@ const CadastroStatus: React.FC = () =>{
                 description: 'Ocorreu um erro ao fazer o cadastro, tente novamente.',
             });
         }
-    }, [] );
+    }, []);
 
-    return(
+    return (
+       
         <Container>
             <Content>
                 <AnimationContainer>
-                    <Form initialData={{name: model?.name}} ref={ formRef } onSubmit={ handlerSubmit }>
-                        <h3>Cadastro de Status</h3>
+                    <Form initialData={{ name: model?.name }} ref={formRef} onSubmit={handlerSubmit}>
+                        <h1>Cadastro de Status</h1>
                         <Input type="text" name="name" placeholder="Status" />
                         <Button type="submit">Enviar</Button>
                     </Form>
                     <Link to="/status">
-                    <FiArrowLeft/>
+                        <FiArrowLeft />
                         Voltar
                     </Link>
                 </AnimationContainer>
             </Content>
         </Container>
     );
+
 };
-   
+
 
 
 export default CadastroStatus;

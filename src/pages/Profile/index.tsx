@@ -30,7 +30,7 @@ const Profile: React.FC = () =>{
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
-
+    
     const handlerSubmit = useCallback (async (data: registerClient) => {
 
         try{
@@ -145,6 +145,7 @@ const Profile: React.FC = () =>{
                     </Form>
             </Content>
             <Passwords>
+                <h1>Alterar senha</h1>
                 <Form  ref={ formRef } onSubmit={handlerPassword}>
                     <Input type="password" placeholder="Nova Senha" name="newpassword"/>
 

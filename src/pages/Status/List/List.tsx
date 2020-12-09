@@ -4,7 +4,7 @@ import api from '../../../services/api';
 import { useHistory, Link } from 'react-router-dom';
 import Button from 'react-bootstrap/esm/Button';
 import './style.css';
-import { Links } from '../style';
+import { Links, Lists } from '../style';
 import { useToast } from '../../../hooks/toast';
 import { info } from 'console';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -48,7 +48,7 @@ const ManageStatus: React.FC = () =>{
     }
 
     return(
-        <>
+        <Lists>
         <br/>
         <br/>
         <br/>
@@ -97,7 +97,7 @@ const ManageStatus: React.FC = () =>{
                 </Link>
             </Links>
         </div>
-        </>
+        </Lists>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import * as Yup from 'yup'; 
@@ -13,13 +13,16 @@ import Button from '../../components/Button';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import { Checkbox } from 'antd';
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface EmployeeProps{
-    eployee_id: string,
-    name: string,
-    birthday: string,
-    doc: string,
+    id: string,
+    first_name: string, //NOME
+    last_name: string, // DATA DE NASCIMENTO
+    username: string,  // CPF
     email: string,
+    is_staff: string,
 } 
 
 const ManagementEmployee: React.FC = () =>{
@@ -27,17 +30,23 @@ const ManagementEmployee: React.FC = () =>{
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
+
+    useEffect(() =>{
+        api.get('/client/').then((response) =>{
+            console.log('CLIENTES', response.data);
+        })
+    }, [])
     const handlerSubmit = useCallback (async (data: EmployeeProps) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
 
-                doc: Yup.string().required('Informe o CPF do profissional.').min(11, 'Digite um CPF válido.'),
-                name: Yup.string().required('Informe o nome do profissional.').min(3, 'No mínimo três caracteres'),
+                username: Yup.string().required('Informe o CPF do profissional.').min(11, 'Digite um CPF válido.'),
+                first_name: Yup.string().required('Informe o nome do profissional.').min(3, 'No mínimo três caracteres'),
                 email: Yup.string().required('Informe o E-mail do profissional.').email('Digite um E-mail válido.'),
-                password: Yup.string().min(6, 'No mínimo 6 caracteres.'),
-                passwordConfirmation: Yup.string().required('Confirmação de senha obrigatória.')
-                                        .oneOf([Yup.ref('password')], 'Senhas não correspondentes')
+                // password: Yup.string().min(6, 'No mínimo 6 caracteres.'),
+                // passwordConfirmation: Yup.string().required('Confirmação de senha obrigatória.')
+                //                         .oneOf([Yup.ref('password')], 'Senhas não correspondentes')
             });
 
             await schema.validate(data, {
@@ -45,7 +54,13 @@ const ManagementEmployee: React.FC = () =>{
             });
             console.log(data);
             await api.post('/client/', data);
-            history.push('/');
+            addToast({
+                type: 'success',
+                title: 'Sucesso!',
+                description: 'Cadastro realizado com sucesso!'
+            });
+
+            history.push('/dashboard');
 
         }catch(err){
             if(err instanceof Yup.ValidationError){
@@ -61,27 +76,32 @@ const ManagementEmployee: React.FC = () =>{
             });
         }
     }, [addToast, ] );
-
+    const [func, setFunc] = useState('');
     return(
         <Container>
             <Content>
                 <AnimationContainer>
+                
                     <Form ref={ formRef } onSubmit={ handlerSubmit }>
-                        <h1>Cadastro de Funcionário</h1>
-                        
-                        <Input type="text" placeholder="CPF " name="doc" mask="cpf"/>
+                        <h1>Cadastro de Profissional</h1>  
+                    
+                        <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
 
-                        <Input type="text" placeholder="Nome " name="name"/>
+                        <Input type="text" placeholder="Nome " name="first_name"/>
 
                         <Input type="text" placeholder="E-mail " name="email"/>
 
-                        <Input type="text" placeholder="Data de nascimento " name="birthday" mask="datas"/>
+                        <Input type="text" placeholder="Data de nascimento " name="last_name" mask="datas"/>
 
-                        <Input type="password" placeholder="Senha" name="password"/>
-
-                        <Input type="password" placeholder="Confirmar senha" name="passwordConfirmation"/>
+                        <Input type="hidden" name="is_staff" value="1"/> 
 
                         <Button type="submit">Enviar</Button>
+
+                        <Link to ="dashboard">
+                            <FiArrowLeft/>
+                            Voltar
+                        </Link>
+                        
                     </Form>
                 </AnimationContainer>
             </Content>

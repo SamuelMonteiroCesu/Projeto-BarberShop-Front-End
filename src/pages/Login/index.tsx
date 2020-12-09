@@ -29,13 +29,11 @@ const Login: React.FC = () => {
    const { refresh, login } = useAuth();
     const { addToast } = useToast();
 
-    console.log(refresh);
-
     const handlerSubmit = useCallback (async (data: LoginFormData) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
-                username: Yup.string().required('Digite seu C.P.F.'),
+                username: Yup.string().required('Digite seu CPF.'),
                 password: Yup.string().min(6, 'Senha inválida.'),
                 
             });

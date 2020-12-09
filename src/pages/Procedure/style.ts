@@ -10,6 +10,13 @@ export const Container = styled.div`
 
 `;
 
+export const Lists = styled.div`
+    h1{ 
+        font-size: 28px;
+        margin-bottom: 24px;
+        color: #FFFFFF;
+    }
+`;
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
@@ -30,8 +37,10 @@ export const Content = styled.div`
         text-align: center;
     }
 
-    h1{
+    h1{ 
+        font-size: 28px;
         margin-bottom: 24px;
+        color: #FFFFFF;
     }
 
     a{

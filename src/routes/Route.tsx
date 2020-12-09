@@ -13,8 +13,8 @@ interface RouteProps extends ReactDOMRouteProps{
     component: React.ComponentType;
 }
 const Route: React.FC <RouteProps> = ({ isEmployee = false, isClient = false, component: Component, ...rest}) =>{
-   const { refresh } = useAuth();
-   
+   const { refresh, user } = useAuth();
+
         return(
             <ReactDOMRoute
                 {...rest}

@@ -1,5 +1,9 @@
-import React, { useCallback, useRef, useContext, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+
+import * as Yup from 'yup'; 
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 
 import { Container, Content, AnimationContainer } from './style';
 import { useToast } from '../../hooks/toast';
@@ -7,62 +11,57 @@ import { useToast } from '../../hooks/toast';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { Form } from '@unform/web';
-import { FormHandles } from '@unform/core';
-import * as Yup from 'yup';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-
+import { Checkbox } from 'antd';
 import { FiArrowLeft } from 'react-icons/fi';
 
-interface registerClient{
+interface EmployeeProps{
     id: string,
     first_name: string, //NOME
     last_name: string, // DATA DE NASCIMENTO
     username: string,  // CPF
     email: string,
     is_staff: string,
-}
+} 
 
-const CadastroCliente: React.FC = () => {
+const EmployeeCadClient: React.FC = () =>{
+
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
-    //const [user, userState] = useState();
-    const [cliente, setClient]= useState([]);
-        useEffect(() =>{
-            (async () =>{
-            const { data } = await api.get('/client');
-            setClient(data);
-        })();
-    
-        }, []);
-        
-    const handlerSubmit = useCallback (async (data: registerClient) => {
 
+    useEffect(() =>{
+        api.get('/client/').then((response) =>{
+            console.log('CLIENTES', response.data);
+        })
+    }, [])
+    const handlerSubmit = useCallback (async (data: EmployeeProps) => {
         try{
             formRef.current?.setErrors({});
             const schema = Yup.object().shape({
 
-                username: Yup.string().required('CPF obrigatório.').min(11, 'Digite um CPF válido.'),
-                first_name: Yup.string().required('Nome obrigatório.'),
-                last_name: Yup.string().required('Data de nascimento obrigatório.'),
-                email: Yup.string().required('E-mail obrigatório.').email('Digite um E-mail válido.'),
+                username: Yup.string().required('Informe o CPF do profissional.').min(11, 'Digite um CPF válido.'),
+                first_name: Yup.string().required('Informe o nome do profissional.').min(3, 'No mínimo três caracteres'),
+                email: Yup.string().required('Informe o E-mail do profissional.').email('Digite um E-mail válido.'),
+                // password: Yup.string().min(6, 'No mínimo 6 caracteres.'),
+                // passwordConfirmation: Yup.string().required('Confirmação de senha obrigatória.')
+                //                         .oneOf([Yup.ref('password')], 'Senhas não correspondentes')
             });
 
             await schema.validate(data, {
                 abortEarly: false,
             });
-            // const [model, setModel]
+            console.log(data);
             await api.post('/client/', data);
-            history.push('/login/');
-
             addToast({
                 type: 'success',
-                title: 'Cadastro realizado com sucesso!',
-                description: 'Você já pode efetuar seu login.',
+                title: 'Sucesso!',
+                description: 'Cadastro realizado com sucesso!'
             });
+
+            history.push('/dashboard');
+
         }catch(err){
             if(err instanceof Yup.ValidationError){
                 const errors = getValidationErrors(err);
@@ -76,36 +75,39 @@ const CadastroCliente: React.FC = () => {
                 description: 'Ocorreu um erro ao fazer o cadastro, tente novamente.',
             });
         }
-    }, [addToast, history] );
-
-    console.log('AQUI2', cliente);
-    
+    }, [addToast, ] );
     return(
         <Container>
             <Content>
                 <AnimationContainer>
-                    <Form ref={ formRef }  onSubmit={handlerSubmit}>
-                        <h3>Cadastro de cliente</h3>
-                        <input type="hidden" name="is_staff" />
+                
+                    <Form ref={ formRef } onSubmit={ handlerSubmit }>
+                        <h1>Cadastro de Cliente</h1>  
+                    
                         <Input type="text" placeholder="CPF " name="username" mask="cpf"/>
-            
+
                         <Input type="text" placeholder="Nome " name="first_name"/>
-                
-                        <Input type="text" placeholder="Data de nascimento " name="last_name" mask="datas"/>
-                
+
                         <Input type="text" placeholder="E-mail " name="email"/>
 
+                        <Input type="text" placeholder="Data de nascimento " name="last_name" mask="datas"/>
+
+                        <Input type="hidden" name="is_staff" value=""/> 
+
                         <Button type="submit">Enviar</Button>
+
+                        <Link to ="dashboard">
+                            <FiArrowLeft/>
+                            Voltar
+                        </Link>
+                        
                     </Form>
-                    <Link to="/login">
-                        <FiArrowLeft/>
-                        Voltar
-                    </Link>
                 </AnimationContainer>
             </Content>
-        {/* <Background /> */}
         </Container>
     );
-}
+};
+   
 
-export default CadastroCliente;
+
+export default EmployeeCadClient;

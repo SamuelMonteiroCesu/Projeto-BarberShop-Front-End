@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
-//import LoginBackground from '../../assets/back.jpg'
+import { DatePicker } from "antd";
 
 
 export const Container = styled.div`
@@ -41,4 +41,29 @@ export const Calendar = styled.aside`
     button{
         margin-top: 16px;
     }
+
+    select{
+        background: #F0F4F4;
+        border-radius: 10px;
+        border: 2px solid #939393;
+        padding: 16px;
+        width: 340px;
+        color: #939393;
+        margin: 12px 0 12px 0;
+        display: flex;
+        align-items: center;
+    }
+`;
+
+export const Days = styled(DatePicker)`
+
+    background: #F0F4F4;
+    border-radius: 10px;
+    border: 2px solid #939393;
+    padding: 16px;
+    width: 340px;
+    color: #939393;
+
+    display: flex;
+    align-items: center;
 `;

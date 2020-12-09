@@ -3,6 +3,8 @@ import { object } from 'yup';
 import Login from '../pages/Login';
 import api from '../services/api';
 import {AxiosResponse} from 'axios';
+import {useToast} from './toast';
+import { type } from 'os';
 
 interface UserProps{
     id: number,
@@ -41,7 +43,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({children}) =>{
     const [loading, setLoading] = useState(true);
-
+    const { addToast } = useToast();
     const [data, setData] = useState<AuthState>(() =>{
         const token = localStorage.getItem('@BarberShop:token');
         const refresh = localStorage.getItem('@BarberShop:refresh' );
@@ -55,22 +57,47 @@ const AuthProvider: React.FC = ({children}) =>{
         return {} as AuthState;
     }); 
 
-    
+    function erros(){
+        addToast({
+            type: 'error',
+            title: 'Erro de autenticação',
+            description: 'Verifique suas credenciais'
+        })
+        return;
+    }
 
     const login = useCallback(async({username, password}) =>{
-        const response = await api.post('login/', {username, password});
-    
-        //console.log(response);
-        const token = response.data.access;
-        const refresh = response.data.refresh;
-        localStorage.setItem('@BarberShop:token', token);
-        localStorage.setItem('@BarberShop:refresh', refresh);
-        api.defaults.headers.Authorization = `Bearer ${token}`
+       // const response = await api.post('login/', {username, password});
+       
+        await api.post('login/', {username, password}).then(async(response) =>{
+            const token = response.data.access;
+            const refresh = response.data.refresh;
+            localStorage.setItem('@BarberShop:token', token);
+            localStorage.setItem('@BarberShop:refresh', refresh);
+            api.defaults.headers.Authorization = `Bearer ${token}`
 
-        const res = await api.get('/getuser/');
-        const user = res.data;
-        localStorage.setItem('@BarberShop:user', JSON.stringify(user));
-        setData({ token, refresh, user});
+            const res = await api.get('/getuser/');
+            console.log(res.data);
+            const user = res.data;
+            localStorage.setItem('@BarberShop:user', JSON.stringify(user));
+            
+            setData({ token, refresh, user});
+            
+        }).catch((e) =>{
+            alert('Erro ao autenticar, verifique suas credenciais.');
+        })
+        //console.log(response);
+        // const token = response.data.access;
+        // const refresh = response.data.refresh;
+        // localStorage.setItem('@BarberShop:token', token);
+        // localStorage.setItem('@BarberShop:refresh', refresh);
+        // api.defaults.headers.Authorization = `Bearer ${token}`
+
+        // const res = await api.get('/getuser/');
+        // console.log(res.data);
+        // const user = res.data;
+        // localStorage.setItem('@BarberShop:user', JSON.stringify(user));
+        // setData({ token, refresh, user});
     },[]);
 
     const logout = useCallback(() =>{

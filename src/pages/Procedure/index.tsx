@@ -20,7 +20,7 @@ interface ProceduresProps{
 }
 
 const CadastroProcedimento: React.FC = () =>{
-    const { procedure_id } = useParams();
+    const { procedure_id }:any = useParams();
     const formRef = useRef<FormHandles>(null);
     const { addToast } = useToast();
     const history = useHistory();
@@ -53,7 +53,7 @@ const CadastroProcedimento: React.FC = () =>{
             });
             
            if(procedure_id !== undefined){
-              await api.put(`/procedure/${procedure_id}/`, data);
+              await api.patch(`/procedure/${procedure_id}/`, data);
               addToast({
                 type: 'success',
                 title: 'Procedimento Atualizado!',
@@ -96,7 +96,7 @@ const CadastroProcedimento: React.FC = () =>{
                 }} 
                 ref={ formRef } 
                 onSubmit={ handlerSubmit }>
-                    <h3>Cadastro de Procedimentos</h3>
+                    <h1>Cadastro de Procedimentos</h1>
                     <Input type="text" name="name" placeholder="Nome" />
                     <Input type="text" name="time" placeholder="Tempo estimado"/>
                     <Input type="text" name="price" placeholder="Preço" mask="currency"/>
